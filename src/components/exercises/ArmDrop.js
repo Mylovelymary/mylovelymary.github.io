@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { vibrate } from "@/lib/store";
+import { chime } from "@/lib/sound";
 
 // «Резкий сброс»: руки вверх → резкий выдох, локти вниз. 30 раз, минута отдыха, ещё 30.
 export default function ArmDrop() {
@@ -18,6 +19,7 @@ export default function ArmDrop() {
       setCount(0);
       setSet(2);
       vibrate([100, 80, 100]);
+      chime();
       return;
     }
     const t = setTimeout(() => setRestLeft((s) => s - 1), 1000);

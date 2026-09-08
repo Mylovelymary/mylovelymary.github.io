@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { vibrate } from "@/lib/store";
+import { doorSlam } from "@/lib/sound";
 
 const REPLIES = [
   "Сегодня не принимаю.",
@@ -18,6 +19,7 @@ export default function Door() {
 
   const slam = () => {
     vibrate([40, 60, 90]);
+    doorSlam();
     setClosed(true);
     setTimes((t) => t + 1);
   };

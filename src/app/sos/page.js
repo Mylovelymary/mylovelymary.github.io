@@ -6,6 +6,8 @@ import { EXERCISES, STATES, byId } from "@/data/exercises";
 import { useFavorites } from "@/lib/store";
 import ExerciseView from "@/components/ExerciseView";
 import BackButton from "@/components/BackButton";
+import Penguin from "@/components/Penguin";
+import { success } from "@/lib/sound";
 
 // Режим SOS: показываем упражнения по одному.
 // «Не помогает» — мгновенно следующее. Любимые — первыми, классика — в самом конце.
@@ -54,8 +56,8 @@ export default function SosPage() {
     return (
       <main className="container" style={{ justifyContent: "center" }}>
         <div className="center fade-in">
-          <div style={{ fontSize: "4rem", marginBottom: 16 }}>💙</div>
-          <h1 className="title" style={{ marginBottom: 12 }}>У тебя получилось.</h1>
+          <Penguin pose="cheer" size={140} style={{ marginBottom: 10 }} />
+          <h1 className="title" style={{ marginBottom: 12 }}>У тебя получилось. 💙</h1>
           <p className="muted" style={{ marginBottom: 8, lineHeight: 1.6 }}>
             Волна прошла — а ты здесь. Так будет каждый раз.
           </p>
@@ -77,7 +79,7 @@ export default function SosPage() {
     return (
       <main className="container" style={{ justifyContent: "center" }}>
         <div className="center fade-in">
-          <div style={{ fontSize: "3.4rem", marginBottom: 16 }}>🫂</div>
+          <Penguin pose="calm" size={125} style={{ marginBottom: 10 }} />
           <h1 className="title" style={{ marginBottom: 12 }}>Всё пройдено — а ты всё ещё здесь.</h1>
           <p className="muted" style={{ marginBottom: 10, lineHeight: 1.6 }}>
             Это само по себе победа: приступ не длится вечно, адреналин уже выгорает.
@@ -121,7 +123,7 @@ export default function SosPage() {
       <ExerciseView ex={ex} compact />
 
       <div className="next-bar">
-        <button className="btn btn-helped" style={{ flex: 1 }} onClick={() => setHelped(true)}>
+        <button className="btn btn-helped" style={{ flex: 1 }} onClick={() => { success(); setHelped(true); }}>
           Помогло 💙
         </button>
         <button className="btn btn-next" style={{ flex: 1.4 }} onClick={() => setIdx((i) => i + 1)}>

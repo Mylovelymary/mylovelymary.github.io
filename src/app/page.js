@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { EXERCISES, CATEGORIES, STATES, byId } from "@/data/exercises";
 import { useFavorites } from "@/lib/store";
+import Penguin from "@/components/Penguin";
+import SoundToggle from "@/components/SoundToggle";
 
 // Оттенок карточек по категориям — лёгкая цветовая навигация
 const TINTS = {
@@ -47,13 +49,14 @@ export default function Home() {
 
   return (
     <main className="container container-wide">
-      <header className="center" style={{ margin: "34px 0 6px" }}>
-        <h1 className="title title-hero">Аптечка</h1>
+      <header className="center" style={{ margin: "22px 0 6px" }}>
+        <Penguin pose="wave" size={108} />
+        <h1 className="title title-hero" style={{ marginTop: 4 }}>Аптечка</h1>
         <p className="subtitle" style={{ marginTop: 8 }}>
           Скорая помощь при панике, тревоге и тяжёлых днях
         </p>
         <p className="dim" style={{ fontSize: "0.85rem", marginTop: 6 }}>
-          Бесплатно · без регистрации · работает без интернета
+          Это Пин 🐧 Он рядом, когда накрывает. Бесплатно · без регистрации · офлайн
         </p>
       </header>
 
@@ -128,7 +131,11 @@ export default function Home() {
         </Link>
       </div>
 
-      <p className="dim center" style={{ fontSize: "0.8rem", marginTop: 26, lineHeight: 1.5 }}>
+      <div className="center" style={{ marginTop: 18 }}>
+        <SoundToggle />
+      </div>
+
+      <p className="dim center" style={{ fontSize: "0.8rem", marginTop: 20, lineHeight: 1.5 }}>
         Упражнения собраны из опыта людей, которые сами прошли через панические атаки.
         Аптечка помогает пережить острый момент, но не заменяет психотерапию и врача.
         Если приступы частые — пожалуйста, обратись к специалисту. Ты в этом не в одиночестве. 💙

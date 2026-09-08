@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { vibrate } from "@/lib/store";
+import { bubblePop } from "@/lib/sound";
 
 const COLORS = [
   { name: "голубые", css: "rgba(124, 199, 242, 0.95)" },
@@ -69,6 +70,7 @@ export default function Bubbles() {
   const pop = (b) => {
     if (b.color === target) {
       vibrate(20);
+      bubblePop();
       const newScore = score + 1;
       setScore(newScore);
       // след от лопнувшего пузыря

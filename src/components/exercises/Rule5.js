@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { RULE5_IDEAS } from "@/data/exercises";
 import { vibrate } from "@/lib/store";
+import { chime } from "@/lib/sound";
 
 // Правило 5 минут: договор с собой + таймер.
 export default function Rule5() {
@@ -16,6 +17,7 @@ export default function Rule5() {
       setRunning(false);
       setFinished(true);
       vibrate([120, 90, 120]);
+      chime();
       return;
     }
     const t = setTimeout(() => setLeft((s) => s - 1), 1000);

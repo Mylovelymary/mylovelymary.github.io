@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { vibrate } from "@/lib/store";
+import { chime } from "@/lib/sound";
 
 const MOVES = ["Приседания", "Прыжки на месте", "Бег на месте", "Отжимания от стены"];
 
@@ -18,6 +19,7 @@ export default function Burn() {
       setRunning(false);
       setRounds((r) => r + 1);
       vibrate([100, 80, 100]);
+      chime();
       return;
     }
     const t = setTimeout(() => setLeft((s) => s - 1), 1000);

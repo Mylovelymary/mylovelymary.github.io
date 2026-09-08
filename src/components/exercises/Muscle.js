@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { vibrate } from "@/lib/store";
+import { success } from "@/lib/sound";
 
 const GROUPS = [
   { icon: "✊", name: "Кулаки", tense: "Сожми кулаки изо всех сил" },
@@ -23,6 +24,7 @@ export default function Muscle() {
   const [left, setLeft] = useState(TENSE_SEC);
 
   useEffect(() => {
+    if (gi === GROUPS.length) success();
     if (gi < 0 || gi >= GROUPS.length) return;
     if (left > 0) {
       const t = setTimeout(() => setLeft((s) => s - 1), 1000);

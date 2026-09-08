@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { vibrate } from "@/lib/store";
+import { tick } from "@/lib/sound";
 
 // Метроном для похлопываний «бабочка»: подсвечивает левое/правое плечо в ритме.
 export default function Tapping() {
@@ -18,6 +19,7 @@ export default function Tapping() {
       setSide((s) => 1 - s);
       setBeats((b) => b + 1);
       vibrate(30);
+      tick();
     }, interval);
     return () => clearInterval(timerRef.current);
   }, [playing, bpm]);

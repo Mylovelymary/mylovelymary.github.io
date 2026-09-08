@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Penguin from "@/components/Penguin";
 
 // Дыхательный шар. mode: "belly" (живот, свободный ритм 4/6) или "count" (на счёт, с выбором схемы).
 const SCHEMES = {
@@ -47,12 +48,12 @@ export default function Breath({ mode = "count" }) {
   const inhaling = label === "Вдох";
   const holding = label === "Держим" || label === "Пауза";
 
-  const scale = !running ? 1 : inhaling ? 1.35 : holding ? (phaseIdx > 0 && phases[phaseIdx - 1][0] === "Вдох" ? 1.35 : 0.85) : 0.85;
+  const scale = !running ? 1 : inhaling ? 1.28 : holding ? (phaseIdx > 0 && phases[phaseIdx - 1][0] === "Вдох" ? 1.28 : 0.85) : 0.85;
 
   return (
     <div className="center">
       {mode === "count" && (
-        <div className="chip-row" style={{ justifyContent: "center", marginBottom: 20 }}>
+        <div className="chip-row" style={{ justifyContent: "center", marginBottom: 14 }}>
           {Object.entries(SCHEMES).map(([k, s]) => (
             <button
               key={k}
@@ -68,7 +69,16 @@ export default function Breath({ mode = "count" }) {
         </div>
       )}
 
-      <div style={{ display: "flex", justifyContent: "center", margin: "18px 0 26px", minHeight: "min(250px, 62vw)", alignItems: "center" }}>
+      {/* высота с запасом под увеличение шара, чтобы он не налезал на текст */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "min(280px, 72vw)",
+          margin: "6px 0 10px",
+        }}
+      >
         <div
           className="breath-sphere"
           style={{
@@ -82,13 +92,13 @@ export default function Breath({ mode = "count" }) {
               <div style={{ fontSize: "2rem", textAlign: "center" }}>{left}</div>
             </div>
           ) : (
-            mode === "belly" ? "🎈" : "🌬️"
+            <Penguin pose="breathe" size={100} />
           )}
         </div>
       </div>
 
       <button className={`btn btn-big ${running ? "" : "btn-sky"}`} onClick={() => (running ? setRunning(false) : start())}>
-        {running ? "Стоп" : "Начать"}
+        {running ? "Стоп" : "Дышать вместе с Пином"}
       </button>
 
       {cycles >= 3 && (
@@ -98,9 +108,10 @@ export default function Breath({ mode = "count" }) {
       )}
 
       {mode === "belly" && (
-        <p className="dim" style={{ marginTop: 20, fontSize: "0.92rem", lineHeight: 1.5 }}>
+        <p className="dim" style={{ marginTop: 16, fontSize: "0.92rem", lineHeight: 1.5 }}>
           Одна рука на груди, другая на животе. Дыши так, чтобы двигалась только нижняя
           рука: вдох — живот надувается, выдох — сдувается. Грудь почти неподвижна.
+          Смотри, как дышит Пин — у него животом получается отлично.
         </p>
       )}
     </div>
