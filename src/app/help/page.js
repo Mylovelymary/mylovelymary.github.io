@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BackButton from "@/components/BackButton";
 
 export const metadata = { title: "Телефоны поддержки | Аптечка" };
 
@@ -33,7 +34,7 @@ export default function HelpPage() {
   return (
     <main className="container">
       <div className="ex-topbar">
-        <Link href="/" className="btn-ghost">← Назад</Link>
+        <BackButton />
       </div>
 
       <h1 className="title" style={{ marginBottom: 10 }}>☎️ Живой голос рядом</h1>

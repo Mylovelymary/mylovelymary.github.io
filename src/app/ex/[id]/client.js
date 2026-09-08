@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { byId } from "@/data/exercises";
 import ExerciseView from "@/components/ExerciseView";
+import BackButton from "@/components/BackButton";
 
 export default function ExercisePageClient({ id }) {
   const ex = byId[id];
@@ -18,7 +19,7 @@ export default function ExercisePageClient({ id }) {
   return (
     <main className="container ex-screen">
       <div className="ex-topbar">
-        <Link href="/" className="btn-ghost">← Назад</Link>
+        <BackButton />
       </div>
 
       <ExerciseView ex={ex} />

@@ -11,45 +11,49 @@ const REPLIES = [
   "Закрыто. Совсем закрыто.",
 ];
 
-// Визуализация: закрыть дверь перед паникой, как перед незваной гостьей.
+// Визуализация: захлопнуть дверь перед паникой, как перед незваной гостьей.
 export default function Door() {
   const [closed, setClosed] = useState(false);
   const [times, setTimes] = useState(0);
 
   const slam = () => {
-    vibrate(60);
+    vibrate([40, 60, 90]);
     setClosed(true);
     setTimes((t) => t + 1);
   };
 
   return (
     <div className="center">
-      <div className="door-scene" style={{ marginBottom: 26 }}>
-        <div className="door-frame">{closed ? "" : "🌪️"}</div>
-        <div className={`door-panel ${closed ? "closed" : ""}`}>
-          <div className="door-knob" />
+      <div className="door-scene" style={{ marginBottom: 34 }}>
+        <div className="door-frame">
+          {!closed && <span className="panic-cloud">🌪️</span>}
         </div>
+        <div className={`door-panel ${closed ? "closed slam" : ""}`}>
+          <div className="door-knob" />
+          {closed && <div className="door-lock">🔒</div>}
+        </div>
+        <div className="door-shadow" />
       </div>
 
       {!closed ? (
         <>
           <p className="muted" style={{ marginBottom: 20 }}>
-            Вот она — топчется на пороге. Ты ей ничего не должна.
+            Вот она — клубится на пороге. Впускать её совсем не обязательно.
           </p>
           <button className="btn btn-sos" onClick={slam}>
-            Закрыть дверь 🚪
+            Захлопнуть дверь 🚪
           </button>
         </>
       ) : (
         <div className="fade-in">
-          <p style={{ fontSize: "1.35rem", fontWeight: 700, marginBottom: 8 }}>
+          <p style={{ fontSize: "1.35rem", fontWeight: 700, marginBottom: 8, fontFamily: "var(--font-head)" }}>
             «{REPLIES[(times - 1) % REPLIES.length]}»
           </p>
           <p className="muted" style={{ marginBottom: 20 }}>
-            Дверь закрыта. Ты дома, она — снаружи.
+            Хлоп. Замок щёлкнул. Ты дома, она — снаружи.
           </p>
           <button className="btn" onClick={() => setClosed(false)}>
-            Она снова стучится? Закроем ещё раз
+            Она снова стучится? Захлопнем ещё раз
           </button>
         </div>
       )}

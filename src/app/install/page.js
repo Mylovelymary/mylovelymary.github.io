@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BackButton from "@/components/BackButton";
 
 export const metadata = { title: "Установить на телефон | Аптечка" };
 
@@ -6,7 +7,7 @@ export default function InstallPage() {
   return (
     <main className="container">
       <div className="ex-topbar">
-        <Link href="/" className="btn-ghost">← Назад</Link>
+        <BackButton />
       </div>
 
       <h1 className="title" style={{ marginBottom: 10 }}>📲 Аптечка всегда с собой</h1>
@@ -48,7 +49,7 @@ export default function InstallPage() {
       <div className="panel" style={{ padding: "18px 20px" }}>
         <p style={{ lineHeight: 1.7 }}>
           После установки открой Аптечку один раз с интернетом и просто полистай
-          разделы — открой пару упражнений, зайди в режим SOS. Всё, что ты открывала,
+          разделы — открой пару упражнений, зайди в режим SOS. Всё открытое
           сохранится на устройстве и будет доступно без сети.
         </p>
         <p className="dim" style={{ marginTop: 10, fontSize: "0.9rem", lineHeight: 1.6 }}>

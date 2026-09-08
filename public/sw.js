@@ -2,7 +2,7 @@
 // Стратегия: HTML-страницы — сеть, при недоступности кэш; статика — кэш, обновление в фоне.
 // При каждой установке предзагружаются все страницы, чтобы офлайн работал целиком.
 
-const VERSION = "aptechka-v1";
+const VERSION = "aptechka-v2";
 
 const EXERCISES = [
   "tapping", "squats", "cold", "sour", "armdrop", "walk", "sing",

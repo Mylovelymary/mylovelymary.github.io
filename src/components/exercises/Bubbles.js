@@ -4,57 +4,88 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { vibrate } from "@/lib/store";
 
 const COLORS = [
-  { name: "синие", css: "rgba(124, 199, 242, 0.85)" },
-  { name: "мятные", css: "rgba(127, 224, 195, 0.85)" },
-  { name: "персиковые", css: "rgba(255, 179, 133, 0.85)" },
-  { name: "сиреневые", css: "rgba(184, 167, 245, 0.85)" },
+  { name: "голубые", css: "rgba(124, 199, 242, 0.95)" },
+  { name: "мятные", css: "rgba(127, 224, 195, 0.95)" },
+  { name: "персиковые", css: "rgba(255, 179, 133, 0.95)" },
+  { name: "сиреневые", css: "rgba(184, 167, 245, 0.95)" },
 ];
+
+const PRAISE = ["Отлично! 🎯", "Меткость! ✨", "Так держать! 💫", "Глаз-алмаз! 🌟"];
 
 let uid = 0;
 
-// Игра-переключалка: лопай шарики только заданного цвета.
+// Игра-переключалка: лопай мыльные пузыри только заданного цвета.
+// Пузырей нужного цвета всегда достаточно — никакой охоты за единственным мятным.
 export default function Bubbles() {
   const [target, setTarget] = useState(0);
   const [bubbles, setBubbles] = useState([]);
+  const [pops, setPops] = useState([]);
   const [score, setScore] = useState(0);
+  const [praise, setPraise] = useState(null);
   const [playing, setPlaying] = useState(false);
-  const areaRef = useRef(null);
+  const targetRef = useRef(target);
+  targetRef.current = target;
 
-  const spawn = useCallback(() => {
-    const size = 44 + Math.random() * 46;
+  const spawn = useCallback((forceColor) => {
+    const size = 48 + Math.random() * 46;
     return {
       id: uid++,
-      color: Math.floor(Math.random() * COLORS.length),
-      x: Math.random() * (100 - (size / 3.2)),
-      y: Math.random() * (100 - (size / 2.6)),
+      color: forceColor != null ? forceColor : Math.floor(Math.random() * COLORS.length),
+      x: Math.random() * 78,
+      y: Math.random() * 70,
       size,
+      delay: Math.random() * 2,
     };
   }, []);
 
+  // Следим, чтобы пузырей нужного цвета всегда было хотя бы три
+  const topUp = useCallback(
+    (list, tgt) => {
+      const next = [...list];
+      while (next.filter((b) => b.color === tgt).length < 3) next.push(spawn(tgt));
+      return next;
+    },
+    [spawn]
+  );
+
   const start = () => {
-    setTarget(Math.floor(Math.random() * COLORS.length));
-    setBubbles(Array.from({ length: 7 }, spawn));
+    const tgt = Math.floor(Math.random() * COLORS.length);
+    setTarget(tgt);
+    setBubbles(topUp(Array.from({ length: 8 }, () => spawn()), tgt));
+    setPops([]);
     setScore(0);
+    setPraise(null);
     setPlaying(true);
   };
 
   useEffect(() => {
     if (!playing) return;
     const t = setInterval(() => {
-      setBubbles((bs) => (bs.length < 10 ? [...bs, spawn()] : bs));
+      setBubbles((bs) => topUp(bs.length < 11 ? [...bs, spawn()] : bs, targetRef.current));
     }, 900);
     return () => clearInterval(t);
-  }, [playing, spawn]);
+  }, [playing, spawn, topUp]);
 
   const pop = (b) => {
     if (b.color === target) {
       vibrate(20);
-      setScore((s) => s + 1);
-      setBubbles((bs) => bs.filter((x) => x.id !== b.id).concat(spawn()));
-      // время от времени меняем целевой цвет, чтобы мозг не скучал
-      if ((score + 1) % 8 === 0) setTarget(Math.floor(Math.random() * COLORS.length));
+      const newScore = score + 1;
+      setScore(newScore);
+      // след от лопнувшего пузыря
+      setPops((ps) => [...ps.slice(-6), { id: b.id, x: b.x, y: b.y, size: b.size, color: COLORS[b.color].css }]);
+      setTimeout(() => setPops((ps) => ps.filter((p) => p.id !== b.id)), 450);
+
+      let nextTarget = target;
+      if (newScore % 7 === 0) {
+        nextTarget = (target + 1 + Math.floor(Math.random() * (COLORS.length - 1))) % COLORS.length;
+        setTarget(nextTarget);
+        setPraise(PRAISE[Math.floor(Math.random() * PRAISE.length)]);
+        setTimeout(() => setPraise(null), 1200);
+      }
+      setBubbles((bs) => topUp(bs.filter((x) => x.id !== b.id).concat(spawn()), nextTarget));
     } else {
-      setBubbles((bs) => bs.map((x) => (x.id === b.id ? { ...x, shake: !x.shake } : x)));
+      // не тот цвет — пузырь упруго вздрагивает
+      setBubbles((bs) => bs.map((x) => (x.id === b.id ? { ...x, wrong: (x.wrong || 0) + 1 } : x)));
     }
   };
 
@@ -63,7 +94,7 @@ export default function Bubbles() {
       <div className="center">
         <div style={{ fontSize: "3.4rem", marginBottom: 14 }}>🫧</div>
         <p className="muted" style={{ marginBottom: 20 }}>
-          Лопай только шарики нужного цвета. Цвет будет меняться — следи за подсказкой.
+          Лопай только пузыри нужного цвета. Цвет со временем меняется — следи за подсказкой.
         </p>
         <button className="btn btn-sky btn-big" onClick={start}>
           Играть
@@ -77,40 +108,49 @@ export default function Bubbles() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
         <span style={{ fontWeight: 700, fontSize: "1.05rem" }}>
           Лопай{" "}
-          <span style={{ color: COLORS[target].css.replace("0.85", "1"), textShadow: "0 0 14px " + COLORS[target].css }}>
+          <span
+            style={{
+              color: COLORS[target].css,
+              textShadow: "0 0 16px " + COLORS[target].css,
+              transition: "color 0.3s ease",
+            }}
+          >
             {COLORS[target].name}
           </span>
         </span>
-        <span className="muted">Счёт: {score}</span>
+        <span className="muted">{praise || `Счёт: ${score}`}</span>
       </div>
-      <div
-        ref={areaRef}
-        style={{
-          position: "relative",
-          width: "100%",
-          height: "min(52vh, 460px)",
-          background: "var(--surface)",
-          border: "1px solid var(--border)",
-          borderRadius: "var(--radius-lg)",
-          overflow: "hidden",
-        }}
-      >
+
+      <div className="bubble-area">
+        {pops.map((p) => (
+          <span
+            key={`pop-${p.id}`}
+            className="bubble-pop"
+            style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size, "--bubble-color": p.color }}
+          />
+        ))}
         {bubbles.map((b) => (
           <button
             key={b.id}
-            className="bubble"
+            className={`bubble ${b.wrong ? "bubble-wrong" : ""}`}
+            // key для перезапуска анимации вздрагивания
+            data-wrong={b.wrong || 0}
             onClick={() => pop(b)}
             style={{
               left: `${b.x}%`,
               top: `${b.y}%`,
               width: b.size,
               height: b.size,
-              background: `radial-gradient(circle at 32% 30%, rgba(255,255,255,0.55), ${COLORS[b.color].css})`,
+              animationDelay: `0s, ${b.delay}s`,
+              "--bubble-color": COLORS[b.color].css,
             }}
-            aria-label="шарик"
-          />
+            aria-label="пузырь"
+          >
+            <span className="skin" />
+          </button>
         ))}
       </div>
+
       <button className="btn-ghost" style={{ margin: "10px auto 0", display: "block" }} onClick={() => setPlaying(false)}>
         Хватит играть
       </button>

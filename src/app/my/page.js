@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { EXERCISES, byId } from "@/data/exercises";
 import { useFavorites } from "@/lib/store";
+import BackButton from "@/components/BackButton";
 
 // Конструктор личной аптечки: порядок любимых упражнений.
 // Этот порядок используется в режиме SOS — любимые показываются первыми.
@@ -14,7 +15,7 @@ export default function MyKitPage() {
   return (
     <main className="container">
       <div className="ex-topbar">
-        <Link href="/" className="btn-ghost">← Назад</Link>
+        <BackButton />
       </div>
 
       <h1 className="title" style={{ marginBottom: 8 }}>★ Моя аптечка</h1>

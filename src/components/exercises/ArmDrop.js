@@ -60,7 +60,7 @@ export default function ArmDrop() {
             После каждого раза жми на кнопку (или жми заранее и делай в такт).
           </p>
           <button className="btn btn-sos" onClick={tap} style={{ fontSize: "1.6rem", padding: "30px 20px" }}>
-            Сделала! ⬇️
+            Есть! ⬇️
           </button>
         </>
       ) : (

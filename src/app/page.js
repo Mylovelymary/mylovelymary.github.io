@@ -4,9 +4,24 @@ import Link from "next/link";
 import { EXERCISES, CATEGORIES, STATES, byId } from "@/data/exercises";
 import { useFavorites } from "@/lib/store";
 
+// Оттенок карточек по категориям — лёгкая цветовая навигация
+const TINTS = {
+  body: { soft: "rgba(255, 179, 133, 0.12)", border: "rgba(255, 179, 133, 0.35)" },
+  mind: { soft: "rgba(124, 199, 242, 0.12)", border: "rgba(124, 199, 242, 0.35)" },
+  ground: { soft: "rgba(127, 224, 195, 0.12)", border: "rgba(127, 224, 195, 0.35)" },
+  words: { soft: "rgba(184, 167, 245, 0.12)", border: "rgba(184, 167, 245, 0.35)" },
+  low: { soft: "rgba(245, 215, 110, 0.1)", border: "rgba(245, 215, 110, 0.32)" },
+  classic: { soft: "rgba(255, 255, 255, 0.04)", border: "rgba(255, 255, 255, 0.2)" },
+};
+
 function Card({ ex, isFav, onStar }) {
+  const tint = TINTS[ex.category] || {};
   return (
-    <Link href={`/ex/${ex.id}/`} className={`ex-card ${isFav ? "fav-tint" : ""}`}>
+    <Link
+      href={`/ex/${ex.id}/`}
+      className={`ex-card ${isFav ? "fav-tint" : ""}`}
+      style={{ "--tint-soft": tint.soft, "--tint-border": tint.border }}
+    >
       <button
         className={`star-btn ${isFav ? "active" : ""}`}
         onClick={(e) => {
@@ -32,9 +47,9 @@ export default function Home() {
 
   return (
     <main className="container container-wide">
-      <header className="center" style={{ margin: "26px 0 6px" }}>
-        <h1 className="title">Аптечка 💙</h1>
-        <p className="subtitle" style={{ marginTop: 6 }}>
+      <header className="center" style={{ margin: "34px 0 6px" }}>
+        <h1 className="title title-hero">Аптечка</h1>
+        <p className="subtitle" style={{ marginTop: 8 }}>
           Скорая помощь при панике, тревоге и тяжёлых днях
         </p>
         <p className="dim" style={{ fontSize: "0.85rem", marginTop: 6 }}>
@@ -42,16 +57,17 @@ export default function Home() {
         </p>
       </header>
 
-      <div style={{ margin: "24px 0 10px" }}>
+      <div style={{ margin: "26px 0 12px" }}>
         <Link href="/sos" className="btn btn-sos">
           🆘 Мне плохо прямо сейчас
         </Link>
       </div>
 
-      <div className="chip-row" style={{ justifyContent: "center", marginBottom: 6 }}>
+      <div className="state-grid" style={{ marginBottom: 8 }}>
         {STATES.map((s) => (
-          <Link key={s.id} href={`/sos#${s.id}`} className="chip">
-            {s.emoji} {s.label}
+          <Link key={s.id} href={`/sos#${s.id}`} className="state-card">
+            <span className="emoji">{s.emoji}</span>
+            {s.label}
           </Link>
         ))}
       </div>
@@ -115,7 +131,7 @@ export default function Home() {
       <p className="dim center" style={{ fontSize: "0.8rem", marginTop: 26, lineHeight: 1.5 }}>
         Упражнения собраны из опыта людей, которые сами прошли через панические атаки.
         Аптечка помогает пережить острый момент, но не заменяет психотерапию и врача.
-        Если приступы частые — пожалуйста, обратись к специалисту. Ты не одна. 💙
+        Если приступы частые — пожалуйста, обратись к специалисту. Ты в этом не в одиночестве. 💙
       </p>
     </main>
   );

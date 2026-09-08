@@ -28,7 +28,7 @@ export default function SmallSteps() {
             setIdx((i) => i + 1);
           }}
         >
-          Сделала ✓ Дай следующий
+          Сделано ✓ Дай следующий
         </button>
         <button className="btn" onClick={() => setIdx((i) => i + 1)}>
           Не могу такое, дай другое
