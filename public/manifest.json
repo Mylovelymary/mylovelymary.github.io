@@ -1,0 +1,25 @@
+{
+  "name": "Аптечка — скорая помощь при панике и тревоге",
+  "short_name": "Аптечка",
+  "description": "Бесплатная интерактивная аптечка при панических атаках, тревоге и тяжёлых днях. Работает без интернета.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1118",
+  "theme_color": "#0e1118",
+  "orientation": "portrait",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
