@@ -222,17 +222,40 @@ body::after {
 .btn-sos {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(120deg, rgba(255, 179, 133, 0.28), rgba(255, 143, 143, 0.2), rgba(184, 167, 245, 0.22), rgba(255, 179, 133, 0.28));
+  background: linear-gradient(120deg, rgba(255, 158, 109, 0.42), rgba(255, 122, 143, 0.32), rgba(184, 167, 245, 0.3), rgba(255, 158, 109, 0.42));
   background-size: 300% 300%;
   animation: sosFlow 9s ease-in-out infinite;
-  border-color: var(--peach-border);
-  box-shadow: 0 6px 34px rgba(255, 168, 133, 0.22);
+  border-color: rgba(255, 179, 133, 0.5);
+  box-shadow: 0 6px 38px rgba(255, 158, 109, 0.3);
   font-family: var(--font-head);
   font-size: 1.35rem;
   font-weight: 800;
   letter-spacing: -0.01em;
   padding: 26px 20px;
   border-radius: var(--radius-lg);
+}
+
+/* пульсирующая точка вместо эмодзи 🆘 */
+.sos-pulse {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffd2b3;
+  box-shadow: 0 0 12px rgba(255, 210, 179, 0.9);
+  flex-shrink: 0;
+}
+.sos-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 210, 179, 0.8);
+  animation: sosRing 1.8s ease-out infinite;
+}
+@keyframes sosRing {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.1); opacity: 0; }
 }
 .btn-sos::after {
   content: "";
@@ -436,23 +459,34 @@ input[type="range"]::-moz-range-thumb {
 .state-card {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   padding: 14px 16px;
   border-radius: 18px;
-  background: var(--surface);
+  background: linear-gradient(150deg, var(--tint-soft, var(--surface)), var(--surface) 70%);
   border: 1px solid var(--border);
   color: var(--text);
   font-weight: 600;
   font-size: 0.97rem;
   text-decoration: none;
-  transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.25s ease;
 }
 .state-card:hover {
-  background: var(--surface-hover);
-  border-color: var(--border-strong);
+  border-color: var(--tint-border, var(--border-strong));
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 20px var(--tint-soft, transparent);
 }
-.state-card .emoji { font-size: 1.5rem; }
+.state-card .emoji {
+  font-size: 1.35rem;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: var(--tint-soft, var(--surface));
+  border: 1px solid var(--tint-border, var(--border));
+}
 
 /* Звезда избранного */
 .star-btn {
@@ -569,6 +603,17 @@ input[type="range"]::-moz-range-thumb {
   border-color: var(--mint-border);
   opacity: 0.75;
 }
+.step-icon {
+  flex-shrink: 0;
+  width: 30px;
+  text-align: center;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.step-text {
+  flex: 1;
+  align-self: center;
+}
 .step-check {
   flex-shrink: 0;
   width: 28px;
@@ -618,6 +663,17 @@ input[type="range"]::-moz-range-thumb {
   position: absolute;
   top: 6px;
   left: 20px;
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--sky);
+  opacity: 0.25;
+  font-family: Georgia, serif;
+}
+.deck-card::after {
+  content: "”";
+  position: absolute;
+  bottom: -18px;
+  right: 20px;
   font-size: 4rem;
   line-height: 1;
   color: var(--sky);
@@ -687,8 +743,8 @@ input[type="range"]::-moz-range-thumb {
   border: none;
   padding: 0;
   background: transparent;
-  animation: bubbleIn 0.3s ease backwards, bubbleFloat 3.2s ease-in-out infinite;
   will-change: transform;
+  touch-action: manipulation;
 }
 .bubble .skin {
   position: absolute;
@@ -702,15 +758,13 @@ input[type="range"]::-moz-range-thumb {
   box-shadow:
     inset 0 0 14px var(--bubble-color),
     0 4px 18px rgba(0, 0, 0, 0.22);
+  animation: bubbleIn 0.3s ease backwards;
+  transition: transform 0.1s ease;
 }
 .bubble:active .skin { transform: scale(0.85); }
 @keyframes bubbleIn {
   from { transform: scale(0); }
   to { transform: scale(1); }
-}
-@keyframes bubbleFloat {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -9px; }
 }
 
 /* Лопание: кольцо + капельки */
@@ -936,6 +990,28 @@ input[type="range"]::-moz-range-thumb {
   to { opacity: 1; transform: none; }
 }
 
+/* смена упражнения в SOS: въезжает сбоку, мягко и упруго */
+.slide-in { animation: slideIn 0.4s cubic-bezier(0.2, 0.8, 0.3, 1); }
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(46px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ступенчатое появление карточек на главной */
+.card-grid > * { animation: fadeIn 0.5s ease backwards; }
+.card-grid > *:nth-child(1) { animation-delay: 0.03s; }
+.card-grid > *:nth-child(2) { animation-delay: 0.07s; }
+.card-grid > *:nth-child(3) { animation-delay: 0.11s; }
+.card-grid > *:nth-child(4) { animation-delay: 0.15s; }
+.card-grid > *:nth-child(5) { animation-delay: 0.19s; }
+.card-grid > *:nth-child(6) { animation-delay: 0.23s; }
+.card-grid > *:nth-child(7) { animation-delay: 0.27s; }
+.state-grid > * { animation: fadeIn 0.5s ease backwards; }
+.state-grid > *:nth-child(1) { animation-delay: 0.05s; }
+.state-grid > *:nth-child(2) { animation-delay: 0.1s; }
+.state-grid > *:nth-child(3) { animation-delay: 0.15s; }
+.state-grid > *:nth-child(4) { animation-delay: 0.2s; }
+
 .progress-dots {
   display: flex;
   gap: 6px;
@@ -1038,6 +1114,8 @@ hr.sep {
   0%, 100% { transform: scale(1); }
   45%, 55% { transform: scale(1.09); }
 }
+
+/* still: только моргает — дыханием управляет упражнение */
 
 /* cheer: оба крыла вверх, подпрыгивает */
 .p-cheer .p-body {

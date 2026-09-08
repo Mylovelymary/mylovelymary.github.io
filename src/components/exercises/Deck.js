@@ -33,7 +33,7 @@ export default function Deck({ cards, allowCustom = false }) {
 
       <div style={{ display: "flex", gap: 10, marginTop: 14 }}>
         <button className="btn" onClick={next}>
-          Следующая →
+          Следующая
         </button>
       </div>
 

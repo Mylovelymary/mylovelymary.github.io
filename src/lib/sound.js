@@ -66,12 +66,36 @@ export function success() {
   tone(784, { start: 0.18, dur: 0.7, vol: 0.05 });
 }
 
-// Глухой «бум» захлопнувшейся двери + щелчок замка
+// Глухой «бум» захлопнувшейся двери: удар (шум через низкий фильтр) + гул + щелчок замка
 export function doorSlam() {
-  tone(110, { dur: 0.22, vol: 0.22, glideTo: 45 });
-  tone(70, { dur: 0.3, vol: 0.16, glideTo: 40, type: "triangle" });
+  const c = ensureCtx();
+  if (!c || !enabled()) return;
+  const t0 = c.currentTime;
+
+  // сам удар: короткий взрыв шума, пропущенный через низкочастотный фильтр
+  const dur = 0.28;
+  const buf = c.createBuffer(1, c.sampleRate * dur, c.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < data.length; i++) {
+    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 2.5);
+  }
+  const src = c.createBufferSource();
+  src.buffer = buf;
+  const filter = c.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(420, t0);
+  filter.frequency.exponentialRampToValueAtTime(90, t0 + dur);
+  const g = c.createGain();
+  g.gain.setValueAtTime(0.5, t0);
+  g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+  src.connect(filter).connect(g).connect(c.destination);
+  src.start(t0);
+
+  // низкий гул корпуса двери
+  tone(55, { dur: 0.35, vol: 0.18, glideTo: 38, type: "sine" });
   // щелчок задвижки чуть позже
-  tone(1600, { start: 0.32, dur: 0.05, vol: 0.04, type: "square", glideTo: 900 });
+  tone(2200, { start: 0.4, dur: 0.03, vol: 0.035, type: "square", glideTo: 1200 });
+  tone(1500, { start: 0.46, dur: 0.03, vol: 0.03, type: "square", glideTo: 800 });
 }
 
 // Лёгкое «пуф» лопнувшего пузыря — каждый раз чуть разной высоты

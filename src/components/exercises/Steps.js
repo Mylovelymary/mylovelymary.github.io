@@ -19,10 +19,8 @@ export default function Steps({ steps, doneText = "Готово. Ты молод
           onClick={() => toggle(i)}
         >
           <div className="step-check">{done.includes(i) ? "✓" : ""}</div>
-          <div>
-            <span style={{ marginRight: 8 }}>{s.icon}</span>
-            {s.text}
-          </div>
+          <div className="step-icon">{s.icon}</div>
+          <div className="step-text">{s.text}</div>
         </div>
       ))}
       {complete && (

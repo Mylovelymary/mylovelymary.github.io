@@ -42,7 +42,7 @@ export default function ExerciseView({ ex, compact = false }) {
   const isFav = favs.includes(ex.id);
 
   return (
-    <div className="fade-in" key={ex.id}>
+    <div className={compact ? "slide-in" : "fade-in"} key={ex.id}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
         <h1 className="title" style={{ flex: 1 }}>
           {ex.emoji} {ex.title}

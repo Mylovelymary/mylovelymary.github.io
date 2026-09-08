@@ -32,7 +32,7 @@ export default function Senses() {
             style={{ justifyContent: "space-between" }}
           >
             <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-              <span style={{ fontSize: "1.6rem" }}>{cat.icon}</span>
+              <span style={{ fontSize: "1.5rem", width: 34, textAlign: "center", flexShrink: 0 }}>{cat.icon}</span>
               <span>
                 Найди и назови <b>{cat.target}</b> {cat.text}
               </span>

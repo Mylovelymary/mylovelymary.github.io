@@ -16,6 +16,13 @@ const TINTS = {
   classic: { soft: "rgba(255, 255, 255, 0.04)", border: "rgba(255, 255, 255, 0.2)" },
 };
 
+const STATE_TINTS = {
+  panic: { soft: "rgba(255, 158, 109, 0.14)", border: "rgba(255, 158, 109, 0.4)" },
+  anxiety: { soft: "rgba(124, 199, 242, 0.13)", border: "rgba(124, 199, 242, 0.38)" },
+  thoughts: { soft: "rgba(184, 167, 245, 0.13)", border: "rgba(184, 167, 245, 0.38)" },
+  low: { soft: "rgba(245, 215, 110, 0.11)", border: "rgba(245, 215, 110, 0.35)" },
+};
+
 function Card({ ex, isFav, onStar }) {
   const tint = TINTS[ex.category] || {};
   return (
@@ -56,23 +63,32 @@ export default function Home() {
           Скорая помощь при панике, тревоге и тяжёлых днях
         </p>
         <p className="dim" style={{ fontSize: "0.85rem", marginTop: 6 }}>
-          Это Пин 🐧 Он рядом, когда накрывает. Бесплатно · без регистрации · офлайн
+          Это Хагси 🐧 Он рядом, когда накрывает. Бесплатно · без регистрации · офлайн
         </p>
       </header>
 
       <div style={{ margin: "26px 0 12px" }}>
         <Link href="/sos" className="btn btn-sos">
-          🆘 Мне плохо прямо сейчас
+          <span className="sos-pulse" aria-hidden="true" />
+          Мне плохо прямо сейчас
         </Link>
       </div>
 
       <div className="state-grid" style={{ marginBottom: 8 }}>
-        {STATES.map((s) => (
-          <Link key={s.id} href={`/sos#${s.id}`} className="state-card">
-            <span className="emoji">{s.emoji}</span>
-            {s.label}
-          </Link>
-        ))}
+        {STATES.map((s) => {
+          const tint = STATE_TINTS[s.id] || {};
+          return (
+            <Link
+              key={s.id}
+              href={`/sos#${s.id}`}
+              className="state-card"
+              style={{ "--tint-soft": tint.soft, "--tint-border": tint.border }}
+            >
+              <span className="emoji">{s.emoji}</span>
+              {s.label}
+            </Link>
+          );
+        })}
       </div>
       <p className="dim center" style={{ fontSize: "0.85rem" }}>
         В режиме SOS упражнения идут по одному: не подходит — жми «дальше», пока не найдёшь своё.
@@ -89,7 +105,7 @@ export default function Home() {
             ))}
           </div>
           <Link href="/my" className="btn-ghost" style={{ margin: "10px auto 0", display: "block", width: "fit-content" }}>
-            Настроить порядок моей аптечки →
+            Настроить порядок моей аптечки
           </Link>
         </>
       )}

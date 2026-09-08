@@ -26,7 +26,7 @@ export default function ExercisePageClient({ id }) {
 
       <div className="next-bar">
         <Link href="/sos" className="btn btn-next" style={{ flex: 1 }}>
-          Не помогает — подбери мне другое →
+          Не помогает — подобрать другое
         </Link>
       </div>
     </main>

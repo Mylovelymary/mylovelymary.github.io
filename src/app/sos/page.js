@@ -7,6 +7,7 @@ import { useFavorites } from "@/lib/store";
 import ExerciseView from "@/components/ExerciseView";
 import BackButton from "@/components/BackButton";
 import Penguin from "@/components/Penguin";
+import Confetti from "@/components/Confetti";
 import { success } from "@/lib/sound";
 
 // Режим SOS: показываем упражнения по одному.
@@ -55,6 +56,7 @@ export default function SosPage() {
   if (helped) {
     return (
       <main className="container" style={{ justifyContent: "center" }}>
+        <Confetti />
         <div className="center fade-in">
           <Penguin pose="cheer" size={140} style={{ marginBottom: 10 }} />
           <h1 className="title" style={{ marginBottom: 12 }}>У тебя получилось. 💙</h1>
@@ -79,7 +81,7 @@ export default function SosPage() {
     return (
       <main className="container" style={{ justifyContent: "center" }}>
         <div className="center fade-in">
-          <Penguin pose="calm" size={125} style={{ marginBottom: 10 }} />
+          <div style={{ fontSize: "3.2rem", marginBottom: 14 }}>🌊</div>
           <h1 className="title" style={{ marginBottom: 12 }}>Всё пройдено — а ты всё ещё здесь.</h1>
           <p className="muted" style={{ marginBottom: 10, lineHeight: 1.6 }}>
             Это само по себе победа: приступ не длится вечно, адреналин уже выгорает.
@@ -127,7 +129,7 @@ export default function SosPage() {
           Помогло 💙
         </button>
         <button className="btn btn-next" style={{ flex: 1.4 }} onClick={() => setIdx((i) => i + 1)}>
-          Не то, дальше →
+          Не то, дальше
         </button>
       </div>
     </main>

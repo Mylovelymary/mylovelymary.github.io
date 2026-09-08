@@ -36,7 +36,7 @@ export default function MyKitPage() {
 
       {favExercises.map((ex, i) => (
         <div key={ex.id} className="step-item" style={{ cursor: "default", alignItems: "center" }}>
-          <span style={{ fontSize: "1.5rem" }}>{ex.emoji}</span>
+          <span style={{ fontSize: "1.4rem", width: 34, textAlign: "center", flexShrink: 0 }}>{ex.emoji}</span>
           <Link href={`/ex/${ex.id}/`} style={{ flex: 1, color: "var(--text)", textDecoration: "none", fontWeight: 600 }}>
             {ex.title}
           </Link>
@@ -57,7 +57,7 @@ export default function MyKitPage() {
       <div className="section-label">Добавить в аптечку</div>
       {others.map((ex) => (
         <div key={ex.id} className="step-item" style={{ cursor: "default", alignItems: "center" }}>
-          <span style={{ fontSize: "1.5rem" }}>{ex.emoji}</span>
+          <span style={{ fontSize: "1.4rem", width: 34, textAlign: "center", flexShrink: 0 }}>{ex.emoji}</span>
           <Link href={`/ex/${ex.id}/`} style={{ flex: 1, color: "var(--text)", textDecoration: "none" }}>
             <div style={{ fontWeight: 600 }}>{ex.title}</div>
             <div className="dim" style={{ fontSize: "0.85rem" }}>{ex.hint}</div>
