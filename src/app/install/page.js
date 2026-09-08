@@ -10,7 +10,7 @@ export default function InstallPage() {
         <BackButton />
       </div>
 
-      <h1 className="title" style={{ marginBottom: 10 }}>📲 Аптечка всегда с собой</h1>
+      <h1 className="title" style={{ marginBottom: 10 }}>Аптечка всегда с собой</h1>
       <p className="muted" style={{ marginBottom: 24, lineHeight: 1.55 }}>
         Аптечку можно установить как приложение — она появится на домашнем экране
         и будет работать <b>даже без интернета</b>: в метро, в самолёте, где угодно.

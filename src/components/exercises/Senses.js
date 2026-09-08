@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { Eye, Hand, Ear, Wind, Utensils } from "lucide-react";
 
 const CATS = [
-  { target: 5, text: "вещей, которые ВИДИШЬ", icon: "👁️" },
-  { target: 4, text: "вещи, которые можешь ПОТРОГАТЬ", icon: "🖐️" },
-  { target: 3, text: "звука, которые СЛЫШИШЬ", icon: "👂" },
-  { target: 2, text: "запаха, которые ЧУВСТВУЕШЬ", icon: "👃" },
-  { target: 1, text: "вкус во рту", icon: "👅" },
+  { target: 5, text: "вещей, которые ВИДИШЬ", Icon: Eye },
+  { target: 4, text: "вещи, которые можешь ПОТРОГАТЬ", Icon: Hand },
+  { target: 3, text: "звука, которые СЛЫШИШЬ", Icon: Ear },
+  { target: 2, text: "запаха, которые ЧУВСТВУЕШЬ", Icon: Wind },
+  { target: 1, text: "вкус во рту", Icon: Utensils },
 ];
 
 // Классика 5-4-3-2-1 — по-честному интерактивная: жми за каждый найденный предмет.
@@ -24,15 +25,18 @@ export default function Senses() {
     <div>
       {CATS.map((cat, i) => {
         const done = counts[i] === cat.target;
+        const Icon = cat.Icon;
         return (
           <div
             key={i}
             className={`step-item ${done ? "done" : ""}`}
             onClick={() => inc(i)}
-            style={{ justifyContent: "space-between" }}
+            style={{ justifyContent: "space-between", alignItems: "center" }}
           >
             <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-              <span style={{ fontSize: "1.5rem", width: 34, textAlign: "center", flexShrink: 0 }}>{cat.icon}</span>
+              <span style={{ width: 34, flexShrink: 0, display: "flex", justifyContent: "center", color: done ? "var(--mint)" : "var(--sky)" }}>
+                <Icon size={22} />
+              </span>
               <span>
                 Найди и назови <b>{cat.target}</b> {cat.text}
               </span>

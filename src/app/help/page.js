@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BackButton from "@/components/BackButton";
+import { Phone } from "lucide-react";
 
 export const metadata = { title: "Телефоны поддержки | Аптечка" };
 
@@ -37,7 +38,7 @@ export default function HelpPage() {
         <BackButton />
       </div>
 
-      <h1 className="title" style={{ marginBottom: 10 }}>☎️ Живой голос рядом</h1>
+      <h1 className="title" style={{ marginBottom: 10 }}>Живой голос рядом</h1>
       <p className="muted" style={{ marginBottom: 24, lineHeight: 1.55 }}>
         Иногда упражнений мало и нужен живой человек. Это нормально — попросить помощи.
         Все линии ниже бесплатные, на них отвечают обученные люди, и им можно звонить
@@ -46,7 +47,9 @@ export default function HelpPage() {
 
       {LINES.map((l) => (
         <a key={l.tel} href={`tel:${l.tel}`} className="step-item" style={{ textDecoration: "none", color: "var(--text)" }}>
-          <span style={{ fontSize: "1.6rem" }}>📞</span>
+          <span style={{ width: 34, flexShrink: 0, display: "flex", justifyContent: "center", color: "var(--lavender)", marginTop: 4 }}>
+            <Phone size={22} />
+          </span>
           <div>
             <div style={{ fontWeight: 700 }}>{l.name}</div>
             <div style={{ color: "var(--sky)", fontWeight: 700, fontSize: "1.15rem", margin: "4px 0" }}>{l.phone}</div>

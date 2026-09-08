@@ -53,8 +53,6 @@ export default function Breath({ mode = "count" }) {
   // Хагси «надувается»: на вдохе раздувается вширь и вверх, на выдохе слегка оседает.
   // Точка опоры — лапки, чтобы он рос от земли, а не парил.
   const [sx, sy] = !running ? [1, 1] : inhaling || afterInhale ? [1.12, 1.18] : [1, 0.93];
-  // прогресс текущей фазы для полоски
-  const phaseProgress = running ? ((phaseDur - left + 1) / phaseDur) * 100 : 0;
 
   return (
     <div className="center">
@@ -109,9 +107,15 @@ export default function Breath({ mode = "count" }) {
         </div>
       </div>
 
-      {/* полоска фазы */}
+      {/* полоска фазы: заполняется плавно за всю длительность фазы */}
       <div className="deck-progress" style={{ maxWidth: 260, margin: "0 auto 18px" }}>
-        <div style={{ width: `${phaseProgress}%`, transitionDuration: running ? "1s" : "0.3s", transitionTimingFunction: "linear" }} />
+        {running && (
+          <div
+            key={`${cycles}-${phaseIdx}`}
+            className="phase-bar"
+            style={{ animationDuration: `${phaseDur}s` }}
+          />
+        )}
       </div>
 
       <button className={`btn btn-big ${running ? "" : "btn-sky"}`} onClick={() => (running ? setRunning(false) : start())}>

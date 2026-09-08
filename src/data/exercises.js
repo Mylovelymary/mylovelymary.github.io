@@ -10,10 +10,10 @@
 // states: panic | anxiety | thoughts | low
 
 export const STATES = [
-  { id: "panic", label: "Паника / ПА", emoji: "🌊" },
-  { id: "anxiety", label: "Тревога нарастает", emoji: "🌫️" },
-  { id: "thoughts", label: "Мысли по кругу", emoji: "🌀" },
-  { id: "low", label: "Пусто, нет сил", emoji: "🕯️" },
+  { id: "panic", label: "Паника / ПА", icon: "CloudLightning" },
+  { id: "anxiety", label: "Тревога нарастает", icon: "CloudFog" },
+  { id: "thoughts", label: "Мысли по кругу", icon: "RotateCw" },
+  { id: "low", label: "Пусто, нет сил", icon: "Moon" },
 ];
 
 export const CATEGORIES = [
@@ -30,7 +30,7 @@ export const EXERCISES = [
   {
     id: "tapping",
     type: "tapping",
-    emoji: "🦋",
+    icon: "HeartHandshake",
     title: "Похлопывания + шаги",
     hint: "Руки крест-накрест, хлопай в ритм",
     category: "body",
@@ -41,7 +41,7 @@ export const EXERCISES = [
   {
     id: "squats",
     type: "burn",
-    emoji: "🔥",
+    icon: "Flame",
     title: "Сжечь адреналин",
     hint: "30 секунд приседаний или прыжков",
     category: "body",
@@ -52,7 +52,7 @@ export const EXERCISES = [
   {
     id: "cold",
     type: "steps",
-    emoji: "🧊",
+    icon: "Snowflake",
     title: "Холод",
     hint: "Ледяная вода, лёд в ладони",
     category: "body",
@@ -69,7 +69,7 @@ export const EXERCISES = [
   {
     id: "sour",
     type: "steps",
-    emoji: "🍋",
+    icon: "Citrus",
     title: "Кислое или острое",
     hint: "Резкий вкус обрывает спираль",
     category: "body",
@@ -86,7 +86,7 @@ export const EXERCISES = [
   {
     id: "armdrop",
     type: "armdrop",
-    emoji: "💪",
+    icon: "Dumbbell",
     title: "Резкий сброс",
     hint: "Руки вверх — резкий выдох вниз, 30 раз",
     category: "body",
@@ -97,7 +97,7 @@ export const EXERCISES = [
   {
     id: "walk",
     type: "steps",
-    emoji: "🚶",
+    icon: "Footprints",
     title: "Быстрый шаг",
     hint: "Ускорься и иди",
     category: "body",
@@ -114,7 +114,7 @@ export const EXERCISES = [
   {
     id: "sing",
     type: "steps",
-    emoji: "🎤",
+    icon: "Mic",
     title: "Пой вслух",
     hint: "Громко, любую песню",
     category: "body",
@@ -133,7 +133,7 @@ export const EXERCISES = [
   {
     id: "emdr",
     type: "emdr",
-    emoji: "👀",
+    icon: "Eye",
     title: "Следи за шариком",
     hint: "Движение глаз успокаивает",
     category: "mind",
@@ -144,7 +144,7 @@ export const EXERCISES = [
   {
     id: "door",
     type: "door",
-    emoji: "🚪",
+    icon: "DoorClosed",
     title: "Закрой дверь перед паникой",
     hint: "«Приходи через месяц — может, подумаю»",
     category: "mind",
@@ -155,7 +155,7 @@ export const EXERCISES = [
   {
     id: "postpone",
     type: "postpone",
-    emoji: "⏰",
+    icon: "AlarmClock",
     title: "Перенеси панику",
     hint: "«Не сейчас, у меня дела»",
     category: "mind",
@@ -166,7 +166,7 @@ export const EXERCISES = [
   {
     id: "bubbles",
     type: "bubbles",
-    emoji: "🫧",
+    icon: "Sparkles",
     title: "Лопай шарики",
     hint: "Игра, чтобы занять руки и глаза",
     category: "mind",
@@ -177,7 +177,7 @@ export const EXERCISES = [
   {
     id: "laugh",
     type: "steps",
-    emoji: "😂",
+    icon: "Laugh",
     title: "Резкая смена эмоции",
     hint: "Смех выбивает панику",
     category: "mind",
@@ -196,7 +196,7 @@ export const EXERCISES = [
   {
     id: "grounding",
     type: "steps",
-    emoji: "🌳",
+    icon: "TreePine",
     title: "Корни в пол",
     hint: "Найти точку опоры",
     category: "ground",
@@ -214,7 +214,7 @@ export const EXERCISES = [
   {
     id: "water",
     type: "steps",
-    emoji: "💧",
+    icon: "GlassWater",
     title: "Стакан воды",
     hint: "Медленно, маленькими глотками",
     category: "ground",
@@ -231,7 +231,7 @@ export const EXERCISES = [
   {
     id: "hug",
     type: "steps",
-    emoji: "🤗",
+    icon: "Heart",
     title: "Обними себя",
     hint: "Давление и вес успокаивают",
     category: "ground",
@@ -248,7 +248,7 @@ export const EXERCISES = [
   {
     id: "mirror",
     type: "steps",
-    emoji: "🪞",
+    icon: "ScanFace",
     title: "Поговори с собой в зеркале",
     hint: "Увидеть себя — понять себя",
     category: "ground",
@@ -265,7 +265,7 @@ export const EXERCISES = [
   {
     id: "cry",
     type: "steps",
-    emoji: "😢",
+    icon: "CloudRain",
     title: "Разреши себе заплакать",
     hint: "Слёзы завершают приступ",
     category: "ground",
@@ -284,7 +284,7 @@ export const EXERCISES = [
   {
     id: "phrases",
     type: "phrases",
-    emoji: "💬",
+    icon: "MessageCircle",
     title: "Слова себе",
     hint: "Фразы, которые находят отклик",
     category: "words",
@@ -309,7 +309,7 @@ export const EXERCISES = [
   {
     id: "notdanger",
     type: "phrases",
-    emoji: "🛡️",
+    icon: "ShieldCheck",
     title: "Это не опасно: факты",
     hint: "Знание, которое успокаивает",
     category: "words",
@@ -333,7 +333,7 @@ export const EXERCISES = [
   {
     id: "smallsteps",
     type: "smallsteps",
-    emoji: "🌱",
+    icon: "Sprout",
     title: "Один маленький шаг",
     hint: "Когда не можешь ничего — сделай крошечное",
     category: "low",
@@ -344,7 +344,7 @@ export const EXERCISES = [
   {
     id: "rule5",
     type: "rule5",
-    emoji: "⏳",
+    icon: "Hourglass",
     title: "Правило 5 минут",
     hint: "Договорись с собой на пять минут",
     category: "low",
@@ -355,7 +355,7 @@ export const EXERCISES = [
   {
     id: "kind",
     type: "phrases",
-    emoji: "🫖",
+    icon: "Coffee",
     title: "Тёплые слова",
     hint: "Когда тяжело и одиноко",
     category: "low",
@@ -379,7 +379,7 @@ export const EXERCISES = [
   {
     id: "muscle",
     type: "muscle",
-    emoji: "🧘",
+    icon: "Activity",
     title: "Напряги и отпусти",
     hint: "Мышечная релаксация по шагам",
     category: "classic",
@@ -390,7 +390,7 @@ export const EXERCISES = [
   {
     id: "belly",
     type: "belly",
-    emoji: "🎈",
+    icon: "Waves",
     title: "Дыхание животом",
     hint: "Рука на живот, дыши в неё",
     category: "classic",
@@ -401,7 +401,7 @@ export const EXERCISES = [
   {
     id: "breath",
     type: "breath",
-    emoji: "🌬️",
+    icon: "Wind",
     title: "Дыхание на счёт",
     hint: "Если счёт тебя не бесит",
     category: "classic",
@@ -412,7 +412,7 @@ export const EXERCISES = [
   {
     id: "senses54321",
     type: "senses",
-    emoji: "🖐️",
+    icon: "Hand",
     title: "5-4-3-2-1",
     hint: "Классика заземления через чувства",
     category: "classic",
@@ -426,21 +426,21 @@ export const byId = Object.fromEntries(EXERCISES.map((e) => [e.id, e]));
 
 // Крошечные шаги для состояния «пусто, нет сил»
 export const SMALL_STEPS = [
-  { icon: "💧", text: "Выпей стакан воды. Прямо сейчас, маленькими глотками." },
-  { icon: "🪟", text: "Открой окно и сделай три вдоха свежего воздуха." },
-  { icon: "🧼", text: "Умойся тёплой водой. Просто умойся, больше ничего." },
-  { icon: "🧦", text: "Надень чистые тёплые носки." },
-  { icon: "🌤️", text: "Подойди к окну и найди на улице три вещи, которые раньше не бросались в глаза." },
-  { icon: "🛏️", text: "Поправь одеяло и подушку. Маленький порядок — уже порядок." },
-  { icon: "🍞", text: "Съешь что-нибудь простое. Хоть кусочек. Тело без топлива грустит сильнее." },
-  { icon: "📱", text: "Напиши одному человеку «привет». Без объяснений, просто привет." },
-  { icon: "🚿", text: "Постой под тёплым душем две минуты. Не мыться — просто стоять." },
-  { icon: "🧹", text: "Убери одну — всего одну — вещь на её место." },
-  { icon: "🎵", text: "Включи одну любимую песню. Можно лёжа, можно с закрытыми глазами." },
-  { icon: "🐈", text: "Погладь кота/собаку. Нет своих — посмотри видео с капибарами." },
-  { icon: "🌿", text: "Полей цветок. Или просто потрогай листик." },
-  { icon: "🕯️", text: "Зажги свечу или включи гирлянду вместо верхнего света." },
-  { icon: "☕", text: "Сделай себе тёплый напиток и держи кружку двумя руками." },
+  { icon: "GlassWater", text: "Выпей стакан воды. Прямо сейчас, маленькими глотками." },
+  { icon: "Wind", text: "Открой окно и сделай три вдоха свежего воздуха." },
+  { icon: "CloudRain", text: "Умойся тёплой водой. Просто умойся, больше ничего." },
+  { icon: "Footprints", text: "Надень чистые тёплые носки." },
+  { icon: "Eye", text: "Подойди к окну и найди на улице три вещи, которые раньше не бросались в глаза." },
+  { icon: "Moon", text: "Поправь одеяло и подушку. Маленький порядок — уже порядок." },
+  { icon: "Utensils", text: "Съешь что-нибудь простое. Хоть кусочек. Тело без топлива грустит сильнее." },
+  { icon: "MessageCircle", text: "Напиши одному человеку «привет». Без объяснений, просто привет." },
+  { icon: "CloudRain", text: "Постой под тёплым душем две минуты. Не мыться — просто стоять." },
+  { icon: "Sparkles", text: "Убери одну — всего одну — вещь на её место." },
+  { icon: "Mic", text: "Включи одну любимую песню. Можно лёжа, можно с закрытыми глазами." },
+  { icon: "Heart", text: "Погладь кота/собаку. Нет своих — посмотри видео с капибарами." },
+  { icon: "Sprout", text: "Полей цветок. Или просто потрогай листик." },
+  { icon: "Flame", text: "Зажги свечу или включи гирлянду вместо верхнего света." },
+  { icon: "Coffee", text: "Сделай себе тёплый напиток и держи кружку двумя руками." },
 ];
 
 // Дела для правила 5 минут

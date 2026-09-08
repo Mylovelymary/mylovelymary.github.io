@@ -28,7 +28,11 @@ export default function Door() {
     <div className="center">
       <div className="door-scene" style={{ marginBottom: 34 }}>
         <div className="door-frame">
-          {!closed && <span className="panic-cloud">🌪️</span>}
+          {!closed && (
+            <div className="panic-vortex">
+              <div className="vortex-core" />
+            </div>
+          )}
         </div>
         <div className={`door-panel ${closed ? "closed slam" : ""}`}>
           <div className="door-knob" />

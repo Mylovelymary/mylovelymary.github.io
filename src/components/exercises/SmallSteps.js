@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SMALL_STEPS } from "@/data/exercises";
+import ExIcon from "@/components/ExIcon";
 
 // Рулетка крошечных шагов для состояния «пусто, нет сил».
 export default function SmallSteps() {
@@ -16,7 +17,9 @@ export default function SmallSteps() {
   return (
     <div className="center">
       <div className="deck-card" style={{ cursor: "default", flexDirection: "column", gap: 14, display: "flex" }}>
-        <div style={{ fontSize: "3rem" }}>{step.icon}</div>
+        <div style={{ color: "var(--mint)" }}>
+          <ExIcon name={step.icon} size={46} strokeWidth={1.6} />
+        </div>
         <div>{step.text}</div>
       </div>
 

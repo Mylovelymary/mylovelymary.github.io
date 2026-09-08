@@ -5,22 +5,24 @@ import { EXERCISES, CATEGORIES, STATES, byId } from "@/data/exercises";
 import { useFavorites } from "@/lib/store";
 import Penguin from "@/components/Penguin";
 import SoundToggle from "@/components/SoundToggle";
+import ExIcon from "@/components/ExIcon";
+import { Star, Phone, Smartphone } from "lucide-react";
 
 // Оттенок карточек по категориям — лёгкая цветовая навигация
 const TINTS = {
-  body: { soft: "rgba(255, 179, 133, 0.12)", border: "rgba(255, 179, 133, 0.35)" },
-  mind: { soft: "rgba(124, 199, 242, 0.12)", border: "rgba(124, 199, 242, 0.35)" },
-  ground: { soft: "rgba(127, 224, 195, 0.12)", border: "rgba(127, 224, 195, 0.35)" },
-  words: { soft: "rgba(184, 167, 245, 0.12)", border: "rgba(184, 167, 245, 0.35)" },
-  low: { soft: "rgba(245, 215, 110, 0.1)", border: "rgba(245, 215, 110, 0.32)" },
-  classic: { soft: "rgba(255, 255, 255, 0.04)", border: "rgba(255, 255, 255, 0.2)" },
+  body: { soft: "rgba(255, 179, 133, 0.12)", border: "rgba(255, 179, 133, 0.35)", icon: "#ffb385" },
+  mind: { soft: "rgba(124, 199, 242, 0.12)", border: "rgba(124, 199, 242, 0.35)", icon: "#7cc7f2" },
+  ground: { soft: "rgba(127, 224, 195, 0.12)", border: "rgba(127, 224, 195, 0.35)", icon: "#7fe0c3" },
+  words: { soft: "rgba(184, 167, 245, 0.12)", border: "rgba(184, 167, 245, 0.35)", icon: "#b8a7f5" },
+  low: { soft: "rgba(245, 215, 110, 0.1)", border: "rgba(245, 215, 110, 0.32)", icon: "#f5d76e" },
+  classic: { soft: "rgba(255, 255, 255, 0.04)", border: "rgba(255, 255, 255, 0.2)", icon: "#aab3c6" },
 };
 
 const STATE_TINTS = {
-  panic: { soft: "rgba(255, 158, 109, 0.14)", border: "rgba(255, 158, 109, 0.4)" },
-  anxiety: { soft: "rgba(124, 199, 242, 0.13)", border: "rgba(124, 199, 242, 0.38)" },
-  thoughts: { soft: "rgba(184, 167, 245, 0.13)", border: "rgba(184, 167, 245, 0.38)" },
-  low: { soft: "rgba(245, 215, 110, 0.11)", border: "rgba(245, 215, 110, 0.35)" },
+  panic: { soft: "rgba(255, 158, 109, 0.14)", border: "rgba(255, 158, 109, 0.4)", icon: "#ffb385" },
+  anxiety: { soft: "rgba(124, 199, 242, 0.13)", border: "rgba(124, 199, 242, 0.38)", icon: "#7cc7f2" },
+  thoughts: { soft: "rgba(184, 167, 245, 0.13)", border: "rgba(184, 167, 245, 0.38)", icon: "#b8a7f5" },
+  low: { soft: "rgba(245, 215, 110, 0.11)", border: "rgba(245, 215, 110, 0.35)", icon: "#f5d76e" },
 };
 
 function Card({ ex, isFav, onStar }) {
@@ -41,9 +43,11 @@ function Card({ ex, isFav, onStar }) {
         aria-label="в мою аптечку"
         title={isFav ? "Убрать из моей аптечки" : "В мою аптечку"}
       >
-        {isFav ? "★" : "☆"}
+        <Star size={18} fill={isFav ? "currentColor" : "none"} />
       </button>
-      <span className="emoji">{ex.emoji}</span>
+      <span className="emoji">
+        <ExIcon name={ex.icon} size={22} color={isFav ? "#f5d76e" : tint.icon} />
+      </span>
       <span className="name">{ex.title}</span>
       <span className="hint">{ex.hint}</span>
     </Link>
@@ -84,7 +88,9 @@ export default function Home() {
               className="state-card"
               style={{ "--tint-soft": tint.soft, "--tint-border": tint.border }}
             >
-              <span className="emoji">{s.emoji}</span>
+              <span className="emoji">
+                <ExIcon name={s.icon} size={20} color={tint.icon} />
+              </span>
               {s.label}
             </Link>
           );
@@ -96,8 +102,8 @@ export default function Home() {
 
       {favExercises.length > 0 && (
         <>
-          <div className="section-label" style={{ color: "var(--gold)" }}>
-            ★ Моя аптечка
+          <div className="section-label" style={{ color: "var(--gold)", gap: 8 }}>
+            <Star size={14} fill="currentColor" /> Моя аптечка
           </div>
           <div className="card-grid">
             {favExercises.map((ex) => (
@@ -140,10 +146,10 @@ export default function Home() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <Link href="/help" className="btn btn-lavender">
-          ☎️ Бесплатные телефоны поддержки
+          <Phone size={19} /> Бесплатные телефоны поддержки
         </Link>
         <Link href="/install" className="btn">
-          📲 Установить на телефон и пользоваться без интернета
+          <Smartphone size={19} /> Установить на телефон — работает без интернета
         </Link>
       </div>
 

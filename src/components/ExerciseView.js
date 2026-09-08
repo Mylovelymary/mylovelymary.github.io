@@ -14,7 +14,9 @@ import Rule5 from "@/components/exercises/Rule5";
 import Muscle from "@/components/exercises/Muscle";
 import Breath from "@/components/exercises/Breath";
 import Senses from "@/components/exercises/Senses";
+import ExIcon from "@/components/ExIcon";
 import { useFavorites } from "@/lib/store";
+import { Star } from "lucide-react";
 
 function Body({ ex }) {
   switch (ex.type) {
@@ -43,10 +45,11 @@ export default function ExerciseView({ ex, compact = false }) {
 
   return (
     <div className={compact ? "slide-in" : "fade-in"} key={ex.id}>
-      <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 8 }}>
-        <h1 className="title" style={{ flex: 1 }}>
-          {ex.emoji} {ex.title}
-        </h1>
+      <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 10 }}>
+        <span className="title-icon">
+          <ExIcon name={ex.icon} size={24} />
+        </span>
+        <h1 className="title" style={{ flex: 1 }}>{ex.title}</h1>
         <button
           className={`star-btn ${isFav ? "active" : ""}`}
           style={{ position: "static", flexShrink: 0 }}
@@ -54,20 +57,13 @@ export default function ExerciseView({ ex, compact = false }) {
           title={isFav ? "Убрать из моей аптечки" : "В мою аптечку"}
           aria-label="избранное"
         >
-          {isFav ? "★" : "☆"}
+          <Star size={20} fill={isFav ? "currentColor" : "none"} />
         </button>
       </div>
 
-      {!compact && (
-        <p className="muted" style={{ marginBottom: 22, lineHeight: 1.55 }}>
-          {ex.intro}
-        </p>
-      )}
-      {compact && (
-        <p className="muted" style={{ marginBottom: 18, lineHeight: 1.5, fontSize: "0.98rem" }}>
-          {ex.intro}
-        </p>
-      )}
+      <p className="muted" style={{ marginBottom: compact ? 18 : 22, lineHeight: 1.5, fontSize: compact ? "0.98rem" : undefined }}>
+        {ex.intro}
+      </p>
 
       <Body ex={ex} />
     </div>
