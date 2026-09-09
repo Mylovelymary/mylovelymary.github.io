@@ -6,7 +6,7 @@ import { EXERCISES, STATES, byId } from "@/data/exercises";
 import { useFavorites } from "@/lib/store";
 import ExerciseView from "@/components/ExerciseView";
 import BackButton from "@/components/BackButton";
-import Penguin from "@/components/Penguin";
+import Raccoon from "@/components/Raccoon";
 import Confetti from "@/components/Confetti";
 import { success } from "@/lib/sound";
 
@@ -58,7 +58,7 @@ export default function SosPage() {
       <main className="container" style={{ justifyContent: "center" }}>
         <Confetti />
         <div className="center fade-in">
-          <Penguin pose="cheer" size={140} style={{ marginBottom: 10 }} />
+          <Raccoon pose="cheer" size={150} style={{ marginBottom: 10 }} />
           <h1 className="title" style={{ marginBottom: 12 }}>У тебя получилось. 💙</h1>
           <p className="muted" style={{ marginBottom: 8, lineHeight: 1.6 }}>
             Волна прошла — а ты здесь. Так будет каждый раз.

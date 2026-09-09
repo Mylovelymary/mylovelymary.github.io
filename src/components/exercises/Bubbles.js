@@ -4,11 +4,13 @@ import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { vibrate } from "@/lib/store";
 import { bubblePop } from "@/lib/sound";
 
+// css — цвет плёнки пузыря (пастельный в обеих темах),
+// label — цвет слова-подсказки, зависит от темы, чтобы читалось
 const COLORS = [
-  { name: "голубые", css: "rgba(124, 199, 242, 0.95)" },
-  { name: "мятные", css: "rgba(127, 224, 195, 0.95)" },
-  { name: "персиковые", css: "rgba(255, 179, 133, 0.95)" },
-  { name: "сиреневые", css: "rgba(184, 167, 245, 0.95)" },
+  { name: "голубые", css: "rgba(124, 199, 242, 0.95)", label: "var(--sky)" },
+  { name: "мятные", css: "rgba(127, 224, 195, 0.95)", label: "var(--mint)" },
+  { name: "персиковые", css: "rgba(255, 179, 133, 0.95)", label: "var(--peach)" },
+  { name: "сиреневые", css: "rgba(184, 167, 245, 0.95)", label: "var(--lavender)" },
 ];
 
 const PRAISE = ["Отлично! 🎯", "Меткость! ✨", "Так держать! 💫", "Глаз-алмаз! 🌟"];
@@ -172,7 +174,7 @@ export default function Bubbles() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
         <span style={{ fontWeight: 700, fontSize: "1.05rem" }}>
           Лопай{" "}
-          <span style={{ color: COLORS[target].css, textShadow: "0 0 16px " + COLORS[target].css, transition: "color 0.3s ease" }}>
+          <span style={{ color: COLORS[target].label, fontWeight: 800, transition: "color 0.3s ease" }}>
             {COLORS[target].name}
           </span>
         </span>

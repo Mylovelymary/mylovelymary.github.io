@@ -3,12 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import { vibrate } from "@/lib/store";
 import { tick } from "@/lib/sound";
+import Raccoon from "@/components/Raccoon";
 
-// Метроном для похлопываний «бабочка»: подсвечивает левое/правое плечо в ритме.
+// Метроном для похлопываний «бабочка». Обезьянка показывает позу,
+// кружки Л/П подсвечиваются в ритме — хлопай той ладонью, которая загорелась.
 export default function Tapping() {
   const [playing, setPlaying] = useState(false);
   const [bpm, setBpm] = useState(80);
-  const [side, setSide] = useState(0); // 0 — левое, 1 — правое
+  const [side, setSide] = useState(0); // 0 — левая, 1 — правая
   const [beats, setBeats] = useState(0);
   const timerRef = useRef(null);
 
@@ -29,19 +31,27 @@ export default function Tapping() {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
-          margin: "10px 0 24px",
-          gap: 12,
+          gap: 18,
+          margin: "6px 0 18px",
         }}
       >
-        <div className={`tap-side ${playing && side === 0 ? "hit" : ""}`}>🫲</div>
-        <div style={{ fontSize: "2.2rem" }}>🦋</div>
-        <div className={`tap-side ${playing && side === 1 ? "hit" : ""}`}>🫱</div>
+        <div className={`tap-side ${playing && side === 0 ? "hit" : ""}`}>Л</div>
+        <div
+          style={{
+            transform: playing ? `rotate(${side === 0 ? -7 : 7}deg)` : "none",
+            transition: "transform 0.25s ease",
+            transformOrigin: "50% 90%",
+          }}
+        >
+          <Raccoon pose={playing ? "still" : "hug"} size={150} />
+        </div>
+        <div className={`tap-side ${playing && side === 1 ? "hit" : ""}`}>П</div>
       </div>
 
       <p className="muted" style={{ marginBottom: 18 }}>
-        Хлопай той ладонью, чья сторона загорается.
+        Держи руки как Хагси. Хлопай той ладонью, чей кружок загорается.
         {beats > 0 && ` Хлопков: ${beats}`}
       </p>
 
@@ -68,8 +78,8 @@ export default function Tapping() {
       </div>
 
       <p className="dim" style={{ marginTop: 22, fontSize: "0.92rem" }}>
-        Можно выбивать любимый ритм — «Спар-так — чем-пи-он», строчку песни, что угодно.
-        Ходи по комнате, если есть место: движение + похлопывания выводят адреналин быстрее всего.
+        Можно выбивать любимый ритм — строчку песни, что угодно. Если есть место —
+        одновременно ходи по комнате: движение выводит адреналин быстрее всего.
       </p>
     </div>
   );

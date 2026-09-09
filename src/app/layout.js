@@ -20,23 +20,27 @@ export const metadata = {
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
     title: "Аптечка",
   },
 };
 
 export const viewport = {
-  themeColor: "#0b0e16",
+  themeColor: "#f6f3ec",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
 };
 
+// Применяем сохранённую тему до отрисовки, чтобы не мигало
+const themeScript = `try{if(localStorage.getItem("aptechka.theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}`;
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${manrope.variable}`}>
+    <html lang="ru" className={`${inter.variable} ${manrope.variable}`} suppressHydrationWarning>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <div className="grain" aria-hidden="true" />
         {children}
         <SwRegister />

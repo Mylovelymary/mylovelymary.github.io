@@ -4,8 +4,8 @@
   "description": "Бесплатная интерактивная аптечка при панических атаках, тревоге и тяжёлых днях. Работает без интернета.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0e1118",
-  "theme_color": "#0e1118",
+  "background_color": "#f6f3ec",
+  "theme_color": "#f6f3ec",
   "orientation": "portrait",
   "lang": "ru",
   "icons": [

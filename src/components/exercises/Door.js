@@ -36,7 +36,7 @@ export default function Door() {
         </div>
         <div className={`door-panel ${closed ? "closed slam" : ""}`}>
           <div className="door-knob" />
-          {closed && <div className="door-lock">🔒</div>}
+          {closed && <div className="door-lock" />}
         </div>
         <div className="door-shadow" />
       </div>
@@ -47,7 +47,7 @@ export default function Door() {
             Вот она — клубится на пороге. Впускать её совсем не обязательно.
           </p>
           <button className="btn btn-sos" onClick={slam}>
-            Захлопнуть дверь 🚪
+            Захлопнуть дверь
           </button>
         </>
       ) : (

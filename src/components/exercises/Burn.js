@@ -3,8 +3,15 @@
 import { useEffect, useState } from "react";
 import { vibrate } from "@/lib/store";
 import { chime } from "@/lib/sound";
+import Raccoon from "@/components/Raccoon";
 
-const MOVES = ["Приседания", "Прыжки на месте", "Бег на месте", "Отжимания от стены"];
+// Движение → поза Хагси: он приседает и прыгает вместе с человеком
+const MOVES = [
+  { label: "Приседания", pose: "squat" },
+  { label: "Прыжки", pose: "jump" },
+  { label: "Бег на месте", pose: "jump" },
+  { label: "Отжимания от стены", pose: "raise" },
+];
 
 // Сброс адреналина: раунды по 30 секунд интенсивного движения.
 export default function Burn() {
@@ -31,34 +38,40 @@ export default function Burn() {
     setRunning(true);
   };
 
+  const move = MOVES[moveIdx];
+
   return (
     <div className="center">
-      <div className="chip-row" style={{ justifyContent: "center", marginBottom: 22 }}>
+      <div className="chip-row" style={{ justifyContent: "center", marginBottom: 10 }}>
         {MOVES.map((m, i) => (
           <button
-            key={m}
+            key={m.label}
             className={`chip ${i === moveIdx ? "selected" : ""}`}
             onClick={() => setMoveIdx(i)}
           >
-            {m}
+            {m.label}
           </button>
         ))}
       </div>
 
-      <div className={`big-number ${running ? "pulse-ring" : ""}`} style={{ color: left === 0 ? "var(--mint)" : "var(--text)" }}>
-        {left}
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 22, margin: "4px 0" }}>
+        <Raccoon pose={running ? move.pose : "calm"} size={130} />
+        <div className={`big-number ${running ? "pulse-ring" : ""}`} style={{ color: left === 0 ? "var(--mint)" : "var(--text)", fontSize: "clamp(3.4rem, 14vw, 5rem)" }}>
+          {left}
+        </div>
       </div>
-      <p className="muted" style={{ margin: "8px 0 24px" }}>
+
+      <p className="muted" style={{ margin: "6px 0 18px" }}>
         {running
-          ? `${MOVES[moveIdx]} — не останавливайся!`
+          ? `${move.label} — вместе с Хагси, не останавливайся!`
           : rounds > 0
-            ? `Раунд ${rounds} сделан. Пульс постучит и успокоится — так и должно быть.`
+            ? `Раунд ${rounds} сделан. Пульс постучит и успокоится — так и надо.`
             : "30 секунд на максимум. Поехали?"}
       </p>
 
       {!running ? (
         <button className="btn btn-sos" onClick={start}>
-          {rounds > 0 ? "Ещё раунд 🔥" : "Старт 🔥"}
+          {rounds > 0 ? "Ещё раунд" : "Старт"}
         </button>
       ) : (
         <button className="btn" onClick={() => setRunning(false)}>
@@ -68,7 +81,7 @@ export default function Burn() {
 
       {rounds >= 2 && (
         <p className="fade-in" style={{ marginTop: 18, color: "var(--mint)", fontWeight: 600 }}>
-          Два раунда! Адреналину уже гораздо меньше есть чем заняться 💪
+          Два раунда! Адреналину уже нечем заняться 💪
         </p>
       )}
     </div>

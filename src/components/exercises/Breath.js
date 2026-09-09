@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Penguin from "@/components/Penguin";
+import Raccoon from "@/components/Raccoon";
 
-// Дыхание с Хагси: пингвин надувается на вдохе и сдувается на выдохе.
+// Дыхание с Хагси: енот надувается на вдохе и сдувается на выдохе.
 // У каждой фазы своя полоска, её ширина пропорциональна длительности —
 // видно, что вдох короче выдоха. «Квадрат» рисуется настоящим квадратом.
 const SCHEMES = {
@@ -75,7 +75,7 @@ export default function Breath({ mode = "count" }) {
         filter: "drop-shadow(0 0 30px rgba(124, 199, 242, 0.25))",
       }}
     >
-      <Penguin pose={running ? "still" : "calm"} size={isBox ? 120 : 150} />
+      <Raccoon pose={running ? "still" : "calm"} size={isBox ? 118 : 150} />
     </div>
   );
 

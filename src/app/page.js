@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { EXERCISES, CATEGORIES, STATES, byId } from "@/data/exercises";
 import { useFavorites } from "@/lib/store";
-import Penguin from "@/components/Penguin";
+import Raccoon from "@/components/Raccoon";
 import SoundToggle from "@/components/SoundToggle";
+import ThemeToggle from "@/components/ThemeToggle";
 import ExIcon from "@/components/ExIcon";
 import { Star, Phone, Smartphone } from "lucide-react";
 
@@ -61,20 +62,20 @@ export default function Home() {
   return (
     <main className="container container-wide">
       <header className="center" style={{ margin: "22px 0 6px" }}>
-        <Penguin pose="wave" size={108} />
+        <Raccoon pose="wave" size={125} />
         <h1 className="title title-hero" style={{ marginTop: 4 }}>Аптечка</h1>
         <p className="subtitle" style={{ marginTop: 8 }}>
-          Скорая помощь при панике, тревоге и тяжёлых днях
-        </p>
-        <p className="dim" style={{ fontSize: "0.85rem", marginTop: 6 }}>
-          Это Хагси. Он рядом, когда накрывает. Бесплатно · без регистрации · офлайн
+          Помощь при панике и тревоге. С тобой Хагси.
         </p>
       </header>
 
-      <div style={{ margin: "26px 0 12px" }}>
-        <Link href="/sos" className="btn btn-sos">
-          <span className="sos-pulse" aria-hidden="true" />
-          Мне плохо прямо сейчас
+      <div style={{ margin: "24px 0 12px" }}>
+        <Link href="/sos" className="btn btn-sos sos-big">
+          <span className="sos-line1">
+            <span className="sos-pulse" aria-hidden="true" />
+            Тебе плохо?
+          </span>
+          <span className="sos-line2">Жми сюда — поможем прямо сейчас</span>
         </Link>
       </div>
 
@@ -96,9 +97,6 @@ export default function Home() {
           );
         })}
       </div>
-      <p className="dim center" style={{ fontSize: "0.85rem" }}>
-        В режиме SOS упражнения идут по одному: не подходит — жми «дальше», пока не найдёшь своё.
-      </p>
 
       {favExercises.length > 0 && (
         <>
@@ -121,10 +119,8 @@ export default function Home() {
           <span style={{ color: "var(--gold)", flexShrink: 0, marginTop: 2 }}>
             <Star size={22} fill="currentColor" />
           </span>
-          <p className="muted" style={{ fontSize: "0.95rem", lineHeight: 1.55 }}>
-            Нажимай звёздочку на упражнениях, которые тебе помогают, — они соберутся
-            в <b>твою личную аптечку</b> и в трудный момент будут показываться первыми.
-            Всё хранится только на этом устройстве.
+          <p className="muted" style={{ fontSize: "1rem", lineHeight: 1.55 }}>
+            Жми звёздочку на том, что помогает, — соберётся <b>твоя личная аптечка</b>.
           </p>
         </div>
       )}
@@ -156,14 +152,15 @@ export default function Home() {
         </Link>
       </div>
 
-      <div className="center" style={{ marginTop: 18 }}>
+      <div className="chip-row" style={{ justifyContent: "center", marginTop: 18 }}>
         <SoundToggle />
+        <ThemeToggle />
       </div>
 
       <p className="dim center" style={{ fontSize: "0.8rem", marginTop: 20, lineHeight: 1.5 }}>
-        Упражнения собраны из опыта людей, которые сами прошли через панические атаки.
-        Аптечка помогает пережить острый момент, но не заменяет психотерапию и врача.
-        Если приступы частые — пожалуйста, обратись к специалисту. Ты в этом не в одиночестве. 💙
+        Бесплатно, без регистрации, работает офлайн. Упражнения собраны из опыта людей,
+        которые сами прошли через панические атаки. Аптечка помогает пережить острый момент,
+        но не заменяет психотерапию и врача. Ты в этом не в одиночестве. 💙
       </p>
     </main>
   );

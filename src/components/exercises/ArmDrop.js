@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { vibrate } from "@/lib/store";
 import { chime } from "@/lib/sound";
+import Raccoon from "@/components/Raccoon";
 
 // «Резкий сброс»: руки вверх → резкий выдох, локти вниз. 30 раз, минута отдыха, ещё 30.
 export default function ArmDrop() {
@@ -57,9 +58,12 @@ export default function ArmDrop() {
 
       {!done ? (
         <>
-          <p className="muted" style={{ margin: "14px 0 20px", lineHeight: 1.5 }}>
-            Руки над головой, резкий выдох «ХА!» — и рывок локтями вниз.<br />
-            После каждого раза жми на кнопку (или жми заранее и делай в такт).
+          <div style={{ display: "flex", justifyContent: "center", margin: "8px 0 4px" }}>
+            <Raccoon pose="raise" size={150} />
+          </div>
+          <p className="muted" style={{ margin: "10px 0 18px", lineHeight: 1.5 }}>
+            Повторяй за Хагси: руки вверх. Резкий выдох «ХА!» — и рывок локтями вниз.<br />
+            После каждого раза жми на кнопку.
           </p>
           <button className="btn btn-sos" onClick={tap} style={{ fontSize: "1.6rem", padding: "30px 20px" }}>
             Есть!
