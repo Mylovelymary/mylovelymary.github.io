@@ -15,18 +15,8 @@ import Muscle from "@/components/exercises/Muscle";
 import Breath from "@/components/exercises/Breath";
 import Senses from "@/components/exercises/Senses";
 import ExIcon from "@/components/ExIcon";
-import Raccoon from "@/components/Raccoon";
 import { useFavorites } from "@/lib/store";
 import { Star } from "lucide-react";
-
-// Хагси показывает и «предметные» упражнения: дрожит с льдинкой,
-// держит стакан, поёт с микрофоном, обнимает сердечко
-const MASCOT = {
-  cold: { pose: "shiver", item: "ice" },
-  water: { pose: "calm", item: "glass" },
-  sing: { pose: "groove", item: "mic" },
-  hug: { pose: "hug", item: "heart" },
-};
 
 function Body({ ex }) {
   switch (ex.type) {
@@ -74,12 +64,6 @@ export default function ExerciseView({ ex, compact = false }) {
       <p className="muted" style={{ marginBottom: compact ? 16 : 20, lineHeight: 1.5, fontSize: compact ? "0.98rem" : undefined }}>
         {ex.intro}
       </p>
-
-      {MASCOT[ex.id] && (
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
-          <Raccoon pose={MASCOT[ex.id].pose} item={MASCOT[ex.id].item} size={compact ? 108 : 122} />
-        </div>
-      )}
 
       <Body ex={ex} />
     </div>

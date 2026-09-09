@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Raccoon from "@/components/Raccoon";
 
-// Дыхание с Хагси: енот надувается на вдохе и сдувается на выдохе.
+// Дыхание по кругу: круг растёт на вдохе и сжимается на выдохе.
 // У каждой фазы своя полоска, её ширина пропорциональна длительности —
 // видно, что вдох короче выдоха. «Квадрат» рисуется настоящим квадратом.
 const SCHEMES = {
@@ -62,21 +61,20 @@ export default function Breath({ mode = "count" }) {
   const afterInhale = holding && phaseIdx > 0 && phases[phaseIdx - 1][0] === "Вдох";
   const isBox = scheme === "box";
 
-  // Хагси «надувается»: на вдохе раздувается вширь и вверх, на выдохе оседает.
-  // Точка опоры — лапки, чтобы он рос от земли, а не парил.
-  const [sx, sy] = !running ? [1, 1] : inhaling || afterInhale ? [1.12, 1.18] : [1, 0.93];
+  // Круг: на вдохе (и задержке после него) увеличен, на выдохе сжат
+  const scale = !running ? 1 : inhaling || afterInhale ? 1.25 : 0.78;
+  const circleSize = isBox ? 108 : 150;
 
-  const hagsi = (
+  const circle = (
     <div
+      className="breath-circle"
       style={{
-        transform: `scale(${sx}, ${sy})`,
-        transformOrigin: "50% 88%",
+        width: circleSize,
+        height: circleSize,
+        transform: `scale(${scale})`,
         transition: `transform ${running ? phaseDur : 1}s cubic-bezier(0.4, 0, 0.2, 1)`,
-        filter: "drop-shadow(0 0 30px rgba(124, 199, 242, 0.25))",
       }}
-    >
-      <Raccoon pose={running ? "still" : "calm"} size={isBox ? 118 : 150} />
-    </div>
+    />
   );
 
   return (
@@ -107,12 +105,12 @@ export default function Breath({ mode = "count" }) {
             <span style={{ marginLeft: 10, fontVariantNumeric: "tabular-nums" }}>{left}</span>
           </p>
         ) : (
-          <p className="muted">Дыши вместе с Хагси: он надувается — вдох, сдувается — выдох.</p>
+          <p className="muted">Дыши по кругу: он растёт — вдох, сжимается — выдох.</p>
         )}
       </div>
 
       {isBox ? (
-        /* Квадратное дыхание: Хагси внутри квадрата, огонёк бежит по сторонам */
+        /* Квадратное дыхание: круг внутри квадрата, огонёк бежит по сторонам */
         <div className="box-track">
           {SIDES.map((side, i) => {
             const active = running && i === phaseIdx;
@@ -136,7 +134,7 @@ export default function Breath({ mode = "count" }) {
               style={{ animationDuration: `${phaseDur}s` }}
             />
           )}
-          <div className="box-center">{hagsi}</div>
+          <div className="box-center">{circle}</div>
         </div>
       ) : (
         <>
@@ -149,7 +147,7 @@ export default function Breath({ mode = "count" }) {
               margin: "4px 0 2px",
             }}
           >
-            {hagsi}
+            {circle}
           </div>
 
           {/* по полоске на каждую фазу: ширина пропорциональна секундам */}
@@ -182,7 +180,7 @@ export default function Breath({ mode = "count" }) {
       )}
 
       <button className={`btn btn-big ${running ? "" : "btn-sky"}`} onClick={() => (running ? setRunning(false) : start())}>
-        {running ? "Стоп" : "Дышать с Хагси"}
+        {running ? "Стоп" : "Начать"}
       </button>
 
       {cycles >= 3 && (
@@ -195,7 +193,6 @@ export default function Breath({ mode = "count" }) {
         <p className="dim" style={{ marginTop: 16, fontSize: "0.92rem", lineHeight: 1.5 }}>
           Одна рука на груди, другая на животе. Дыши так, чтобы двигалась только нижняя
           рука: вдох — живот надувается, выдох — сдувается. Грудь почти неподвижна.
-          У Хагси животом получается отлично — повторяй за ним.
         </p>
       )}
     </div>

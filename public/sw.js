@@ -2,7 +2,7 @@
 // Стратегия: HTML-страницы — сеть, при недоступности кэш; статика — кэш, обновление в фоне.
 // При каждой установке предзагружаются все страницы, чтобы офлайн работал целиком.
 
-const VERSION = "aptechka-v11";
+const VERSION = "aptechka-v12";
 
 const EXERCISES = [
   "tapping", "squats", "cold", "sour", "armdrop", "walk", "sing",
@@ -13,6 +13,8 @@ const EXERCISES = [
   "muscle", "belly", "breath", "senses54321",
 ];
 
+const CATEGORIES = ["body", "mind", "ground", "words", "low", "classic"];
+
 const PRECACHE = [
   "/",
   "/sos/",
@@ -22,10 +24,8 @@ const PRECACHE = [
   "/manifest.json",
   "/icon-192.png",
   "/hugsy.webp",
-  "/hugsy-stand.webp",
-  "/hugsy-up.webp",
-  "/hugsy-jump.webp",
   "/icon-512.png",
+  ...CATEGORIES.map((id) => `/cat/${id}/`),
   ...EXERCISES.map((id) => `/ex/${id}/`),
 ];
 

@@ -7,17 +7,16 @@ import Raccoon from "@/components/Raccoon";
 import SoundToggle from "@/components/SoundToggle";
 import ThemeToggle from "@/components/ThemeToggle";
 import ExIcon from "@/components/ExIcon";
+import ExCard, { TINTS } from "@/components/ExCard";
 import { Star, Phone, Smartphone } from "lucide-react";
 
-// Оттенок карточек по категориям — лёгкая цветовая навигация
-const TINTS = {
-  body: { soft: "rgba(255, 179, 133, 0.12)", border: "rgba(255, 179, 133, 0.35)", icon: "#ffb385" },
-  mind: { soft: "rgba(124, 199, 242, 0.12)", border: "rgba(124, 199, 242, 0.35)", icon: "#7cc7f2" },
-  ground: { soft: "rgba(127, 224, 195, 0.12)", border: "rgba(127, 224, 195, 0.35)", icon: "#7fe0c3" },
-  words: { soft: "rgba(184, 167, 245, 0.12)", border: "rgba(184, 167, 245, 0.35)", icon: "#b8a7f5" },
-  low: { soft: "rgba(245, 215, 110, 0.1)", border: "rgba(245, 215, 110, 0.32)", icon: "#f5d76e" },
-  classic: { soft: "rgba(255, 255, 255, 0.04)", border: "rgba(255, 255, 255, 0.2)", icon: "#aab3c6" },
-};
+// «2 способа», но «5 способов»
+function waysWord(n) {
+  const d10 = n % 10, d100 = n % 100;
+  if (d10 === 1 && d100 !== 11) return "способ";
+  if (d10 >= 2 && d10 <= 4 && (d100 < 12 || d100 > 14)) return "способа";
+  return "способов";
+}
 
 const STATE_TINTS = {
   panic: { soft: "rgba(255, 158, 109, 0.14)", border: "rgba(255, 158, 109, 0.4)", icon: "#ffb385" },
@@ -26,35 +25,6 @@ const STATE_TINTS = {
   low: { soft: "rgba(245, 215, 110, 0.11)", border: "rgba(245, 215, 110, 0.35)", icon: "#f5d76e" },
 };
 
-function Card({ ex, isFav, onStar }) {
-  const tint = TINTS[ex.category] || {};
-  return (
-    <Link
-      href={`/ex/${ex.id}/`}
-      className={`ex-card ${isFav ? "fav-tint" : ""}`}
-      style={{ "--tint-soft": tint.soft, "--tint-border": tint.border }}
-    >
-      <button
-        className={`star-btn ${isFav ? "active" : ""}`}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          onStar(ex.id);
-        }}
-        aria-label="в мою аптечку"
-        title={isFav ? "Убрать из моей аптечки" : "В мою аптечку"}
-      >
-        <Star size={18} fill={isFav ? "currentColor" : "none"} />
-      </button>
-      <span className="emoji">
-        <ExIcon name={ex.icon} size={22} color={isFav ? "#f5d76e" : tint.icon} />
-      </span>
-      <span className="name">{ex.title}</span>
-      <span className="hint">{ex.hint}</span>
-    </Link>
-  );
-}
-
 export default function Home() {
   const { favs, toggle } = useFavorites();
   const favExercises = favs.map((id) => byId[id]).filter(Boolean);
@@ -62,7 +32,7 @@ export default function Home() {
   return (
     <main className="container container-wide">
       <header className="center" style={{ margin: "22px 0 6px" }}>
-        <Raccoon pose="wave" size={125} />
+        <Raccoon size={125} />
         <h1 className="title title-hero" style={{ marginTop: 4 }}>Аптечка</h1>
         <p className="subtitle" style={{ marginTop: 8 }}>
           Помощь при панике и тревоге. С тобой Хагси.
@@ -105,7 +75,7 @@ export default function Home() {
           </div>
           <div className="card-grid">
             {favExercises.map((ex) => (
-              <Card key={ex.id} ex={ex} isFav onStar={toggle} />
+              <ExCard key={ex.id} ex={ex} isFav onStar={toggle} />
             ))}
           </div>
           <Link href="/my" className="btn-ghost" style={{ margin: "10px auto 0", display: "block", width: "fit-content" }}>
@@ -125,21 +95,27 @@ export default function Home() {
         </div>
       )}
 
-      {CATEGORIES.map((cat) => {
-        const list = EXERCISES.filter((e) => e.category === cat.id).sort((a, b) => a.rank - b.rank);
-        if (!list.length) return null;
-        return (
-          <section key={cat.id}>
-            <div className="section-label">{cat.label}</div>
-            <p className="dim" style={{ fontSize: "0.88rem", margin: "-6px 0 12px" }}>{cat.hint}</p>
-            <div className="card-grid">
-              {list.map((ex) => (
-                <Card key={ex.id} ex={ex} isFav={favs.includes(ex.id)} onStar={toggle} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
+      <div className="section-label">Все способы — по разделам</div>
+      <div className="cat-grid">
+        {CATEGORIES.map((cat) => {
+          const count = EXERCISES.filter((e) => e.category === cat.id).length;
+          const tint = TINTS[cat.id] || {};
+          return (
+            <Link
+              key={cat.id}
+              href={`/cat/${cat.id}/`}
+              className="cat-card"
+              style={{ "--tint-soft": tint.soft, "--tint-border": tint.border }}
+            >
+              <span className="emoji">
+                <ExIcon name={cat.icon} size={26} color={tint.icon} />
+              </span>
+              <span className="name">{cat.short}</span>
+              <span className="hint">{count} {waysWord(count)}</span>
+            </Link>
+          );
+        })}
+      </div>
 
       <hr className="sep" />
 

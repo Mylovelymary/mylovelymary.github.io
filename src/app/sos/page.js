@@ -58,7 +58,7 @@ export default function SosPage() {
       <main className="container" style={{ justifyContent: "center" }}>
         <Confetti />
         <div className="center fade-in">
-          <Raccoon pose="cheer" size={150} style={{ marginBottom: 10 }} />
+          <Raccoon size={150} style={{ marginBottom: 10 }} />
           <h1 className="title" style={{ marginBottom: 12 }}>У тебя получилось. 💙</h1>
           <p className="muted" style={{ marginBottom: 8, lineHeight: 1.6 }}>
             Волна прошла — а ты здесь. Так будет каждый раз.

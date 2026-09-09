@@ -3,14 +3,12 @@
 import { useEffect, useState } from "react";
 import { vibrate } from "@/lib/store";
 import { chime } from "@/lib/sound";
-import Raccoon from "@/components/Raccoon";
 
-// Движение → поза Хагси: он приседает и прыгает вместе с человеком
 const MOVES = [
-  { label: "Приседания", pose: "squat" },
-  { label: "Прыжки", pose: "jump" },
-  { label: "Бег на месте", pose: "jump" },
-  { label: "Отжимания от стены", pose: "raise" },
+  { label: "Приседания" },
+  { label: "Прыжки" },
+  { label: "Бег на месте" },
+  { label: "Отжимания от стены" },
 ];
 
 // Сброс адреналина: раунды по 30 секунд интенсивного движения.
@@ -54,16 +52,13 @@ export default function Burn() {
         ))}
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 22, margin: "4px 0" }}>
-        <Raccoon pose={running ? move.pose : "calm"} size={130} />
-        <div className={`big-number ${running ? "pulse-ring" : ""}`} style={{ color: left === 0 ? "var(--mint)" : "var(--text)", fontSize: "clamp(3.4rem, 14vw, 5rem)" }}>
-          {left}
-        </div>
+      <div className={`big-number ${running ? "pulse-ring" : ""}`} style={{ color: left === 0 ? "var(--mint)" : "var(--text)" }}>
+        {left}
       </div>
 
-      <p className="muted" style={{ margin: "6px 0 18px" }}>
+      <p className="muted" style={{ margin: "8px 0 24px" }}>
         {running
-          ? `${move.label} — вместе с Хагси, не останавливайся!`
+          ? `${move.label} — не останавливайся!`
           : rounds > 0
             ? `Раунд ${rounds} сделан. Пульс постучит и успокоится — так и надо.`
             : "30 секунд на максимум. Поехали?"}

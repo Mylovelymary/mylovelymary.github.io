@@ -5,6 +5,7 @@
 import {
   Activity,
   AlarmClock,
+  Brain,
   CloudFog,
   CloudLightning,
   CloudRain,
@@ -43,6 +44,7 @@ import {
 const MAP = {
   Activity,
   AlarmClock,
+  Brain,
   CloudFog,
   CloudLightning,
   CloudRain,

@@ -51,13 +51,25 @@ export default function Muscle() {
   if (gi < 0) {
     return (
       <div className="center">
-        <div style={{ color: "var(--lavender)", display: "flex", justifyContent: "center", marginBottom: 14 }}>
-          <PersonStanding size={54} strokeWidth={1.6} />
-        </div>
-        <p className="muted" style={{ marginBottom: 22, lineHeight: 1.5 }}>
-          7 групп мышц. Каждую — сильно напрячь на 5 секунд, потом резко отпустить
-          и прочувствовать разницу. Сядь или ляг поудобнее.
+        <p className="muted" style={{ marginBottom: 16, lineHeight: 1.5 }}>
+          7 групп мышц, строго по очереди — сверху вниз. Каждую сильно напрячь
+          на 5 секунд, потом резко отпустить и прочувствовать разницу.
+          Сядь или ляг поудобнее.
         </p>
+
+        {/* очерёдность важна — показываем её списком до старта */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 6, maxWidth: 260, margin: "0 auto 22px", textAlign: "left" }}>
+          {GROUPS.map((grp, i) => (
+            <div key={grp.name} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span className="dim" style={{ width: 18, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>{i + 1}</span>
+              <span style={{ color: "var(--lavender)", display: "flex" }}>
+                <grp.Icon size={20} strokeWidth={1.8} aria-hidden="true" />
+              </span>
+              <span style={{ fontWeight: 600 }}>{grp.name}</span>
+            </div>
+          ))}
+        </div>
+
         <button className="btn btn-lavender btn-big" onClick={() => goTo(0)}>
           Начать
         </button>

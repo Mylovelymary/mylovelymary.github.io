@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { vibrate } from "@/lib/store";
 import { tick } from "@/lib/sound";
-import Raccoon from "@/components/Raccoon";
+import { HeartHandshake } from "lucide-react";
 
-// Метроном для похлопываний «бабочка». Обезьянка показывает позу,
-// кружки Л/П подсвечиваются в ритме — хлопай той ладонью, которая загорелась.
+// Метроном для похлопываний «бабочка»: кружки Л/П подсвечиваются
+// в ритме — хлопай той ладонью, которая загорелась.
 export default function Tapping() {
   const [playing, setPlaying] = useState(false);
   const [bpm, setBpm] = useState(80);
@@ -38,20 +38,14 @@ export default function Tapping() {
         }}
       >
         <div className={`tap-side ${playing && side === 0 ? "hit" : ""}`}>Л</div>
-        <div
-          style={{
-            transform: playing ? `rotate(${side === 0 ? -7 : 7}deg)` : "none",
-            transition: "transform 0.25s ease",
-            transformOrigin: "50% 90%",
-          }}
-        >
-          <Raccoon pose={playing ? "still" : "hug"} size={150} />
+        <div style={{ color: "var(--lavender)", display: "flex" }}>
+          <HeartHandshake size={54} strokeWidth={1.6} aria-hidden="true" />
         </div>
         <div className={`tap-side ${playing && side === 1 ? "hit" : ""}`}>П</div>
       </div>
 
       <p className="muted" style={{ marginBottom: 18 }}>
-        Держи руки как Хагси. Хлопай той ладонью, чей кружок загорается.
+        Руки крест-накрест, ладони на плечах. Хлопай той, чей кружок загорается.
         {beats > 0 && ` Хлопков: ${beats}`}
       </p>
 

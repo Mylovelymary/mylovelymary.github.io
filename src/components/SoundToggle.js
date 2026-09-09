@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { soundEnabled, setSoundEnabled, chime } from "@/lib/sound";
+import { Volume2, VolumeX } from "lucide-react";
 
 // Переключатель звуков (тихие «дзынь» таймеров, хлопок двери, пузыри).
 export default function SoundToggle() {
@@ -19,8 +20,9 @@ export default function SoundToggle() {
   };
 
   return (
-    <button className="chip" onClick={toggle} style={{ margin: "0 auto" }}>
-      {on ? "🔊 Звуки включены" : "🔇 Звуки выключены"}
+    <button className="chip" onClick={toggle}>
+      {on ? <Volume2 size={16} /> : <VolumeX size={16} />}
+      {on ? "Звуки включены" : "Звуки выключены"}
     </button>
   );
 }
