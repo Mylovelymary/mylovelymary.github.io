@@ -67,7 +67,7 @@ export default function Home() {
           Скорая помощь при панике, тревоге и тяжёлых днях
         </p>
         <p className="dim" style={{ fontSize: "0.85rem", marginTop: 6 }}>
-          Это Хагси 🐧 Он рядом, когда накрывает. Бесплатно · без регистрации · офлайн
+          Это Хагси. Он рядом, когда накрывает. Бесплатно · без регистрации · офлайн
         </p>
       </header>
 
@@ -117,9 +117,12 @@ export default function Home() {
       )}
 
       {favExercises.length === 0 && (
-        <div className="panel" style={{ marginTop: 26, padding: "18px 20px" }}>
+        <div className="panel" style={{ marginTop: 26, padding: "18px 20px", display: "flex", gap: 14 }}>
+          <span style={{ color: "var(--gold)", flexShrink: 0, marginTop: 2 }}>
+            <Star size={22} fill="currentColor" />
+          </span>
           <p className="muted" style={{ fontSize: "0.95rem", lineHeight: 1.55 }}>
-            ⭐ Нажимай звёздочку на упражнениях, которые тебе помогают, — они соберутся
+            Нажимай звёздочку на упражнениях, которые тебе помогают, — они соберутся
             в <b>твою личную аптечку</b> и в трудный момент будут показываться первыми.
             Всё хранится только на этом устройстве.
           </p>

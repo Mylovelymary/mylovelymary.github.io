@@ -3,13 +3,24 @@
 import { useEffect, useRef, useState } from "react";
 import Penguin from "@/components/Penguin";
 
-// Дыхание с Хагси: пингвин надувается на вдохе и сдувается на выдохе,
-// под ним бежит полоска фазы. mode: "belly" (живот, 4/6) или "count" (на счёт).
+// Дыхание с Хагси: пингвин надувается на вдохе и сдувается на выдохе.
+// У каждой фазы своя полоска, её ширина пропорциональна длительности —
+// видно, что вдох короче выдоха. «Квадрат» рисуется настоящим квадратом.
 const SCHEMES = {
   soft: { label: "Мягкое 4–6", phases: [["Вдох", 4], ["Выдох", 6]] },
   box: { label: "Квадрат 4-4-4-4", phases: [["Вдох", 4], ["Держим", 4], ["Выдох", 4], ["Пауза", 4]] },
   relax: { label: "4–7–8", phases: [["Вдох", 4], ["Держим", 7], ["Выдох", 8]] },
 };
+
+// Цвет фазы: вдох — голубой, задержка — лаванда, выдох — мята
+const PHASE_COLOR = {
+  Вдох: "var(--sky)",
+  Держим: "var(--lavender)",
+  Выдох: "var(--mint)",
+  Пауза: "var(--text-dim)",
+};
+
+const SIDES = ["top", "right", "bottom", "left"];
 
 export default function Breath({ mode = "count" }) {
   const [scheme, setScheme] = useState(mode === "belly" ? "soft" : "box");
@@ -49,10 +60,24 @@ export default function Breath({ mode = "count" }) {
   const inhaling = label === "Вдох";
   const holding = label === "Держим" || label === "Пауза";
   const afterInhale = holding && phaseIdx > 0 && phases[phaseIdx - 1][0] === "Вдох";
+  const isBox = scheme === "box";
 
-  // Хагси «надувается»: на вдохе раздувается вширь и вверх, на выдохе слегка оседает.
+  // Хагси «надувается»: на вдохе раздувается вширь и вверх, на выдохе оседает.
   // Точка опоры — лапки, чтобы он рос от земли, а не парил.
   const [sx, sy] = !running ? [1, 1] : inhaling || afterInhale ? [1.12, 1.18] : [1, 0.93];
+
+  const hagsi = (
+    <div
+      style={{
+        transform: `scale(${sx}, ${sy})`,
+        transformOrigin: "50% 88%",
+        transition: `transform ${running ? phaseDur : 1}s cubic-bezier(0.4, 0, 0.2, 1)`,
+        filter: "drop-shadow(0 0 30px rgba(124, 199, 242, 0.25))",
+      }}
+    >
+      <Penguin pose={running ? "still" : "calm"} size={isBox ? 120 : 150} />
+    </div>
+  );
 
   return (
     <div className="center">
@@ -65,6 +90,7 @@ export default function Breath({ mode = "count" }) {
               onClick={() => {
                 setScheme(k);
                 setRunning(false);
+                setPhaseIdx(0);
               }}
             >
               {s.label}
@@ -73,50 +99,87 @@ export default function Breath({ mode = "count" }) {
         </div>
       )}
 
-      {/* подпись фазы над Хагси — фиксированной высоты, чтобы ничего не прыгало */}
-      <div style={{ height: 54, display: "flex", flexDirection: "column", justifyContent: "flex-end", marginBottom: 4 }}>
+      {/* подпись фазы — фиксированной высоты, чтобы ничего не прыгало */}
+      <div style={{ height: 50, display: "flex", flexDirection: "column", justifyContent: "flex-end", marginBottom: 4 }}>
         {running ? (
-          <p style={{ fontFamily: "var(--font-head)", fontWeight: 800, fontSize: "1.5rem" }}>
+          <p style={{ fontFamily: "var(--font-head)", fontWeight: 800, fontSize: "1.5rem", color: PHASE_COLOR[label] }}>
             {label}
-            <span style={{ color: "var(--sky)", marginLeft: 10, fontVariantNumeric: "tabular-nums" }}>{left}</span>
+            <span style={{ marginLeft: 10, fontVariantNumeric: "tabular-nums" }}>{left}</span>
           </p>
         ) : (
           <p className="muted">Дыши вместе с Хагси: он надувается — вдох, сдувается — выдох.</p>
         )}
       </div>
 
-      {/* Хагси с мягким свечением; запас по высоте под увеличение */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "min(230px, 60vw)",
-          margin: "4px 0 2px",
-        }}
-      >
-        <div
-          style={{
-            transform: `scale(${sx}, ${sy})`,
-            transformOrigin: "50% 88%",
-            transition: `transform ${running ? phaseDur : 1}s cubic-bezier(0.4, 0, 0.2, 1)`,
-            filter: "drop-shadow(0 0 34px rgba(124, 199, 242, 0.28))",
-          }}
-        >
-          <Penguin pose={running ? "still" : "calm"} size={150} />
+      {isBox ? (
+        /* Квадратное дыхание: Хагси внутри квадрата, огонёк бежит по сторонам */
+        <div className="box-track">
+          {SIDES.map((side, i) => {
+            const active = running && i === phaseIdx;
+            const done = running && i < phaseIdx;
+            return (
+              <div key={side} className={`box-side ${side}`}>
+                {(active || done) && (
+                  <div
+                    key={active ? `${cycles}-${i}` : `done-${i}`}
+                    className={`box-fill ${side} ${active ? "active" : "done"}`}
+                    style={active ? { animationDuration: `${phaseDur}s` } : undefined}
+                  />
+                )}
+              </div>
+            );
+          })}
+          {running && (
+            <div
+              key={`dot-${cycles}-${phaseIdx}`}
+              className={`box-dot dot-${SIDES[phaseIdx]}`}
+              style={{ animationDuration: `${phaseDur}s` }}
+            />
+          )}
+          <div className="box-center">{hagsi}</div>
         </div>
-      </div>
-
-      {/* полоска фазы: заполняется плавно за всю длительность фазы */}
-      <div className="deck-progress" style={{ maxWidth: 260, margin: "0 auto 18px" }}>
-        {running && (
+      ) : (
+        <>
           <div
-            key={`${cycles}-${phaseIdx}`}
-            className="phase-bar"
-            style={{ animationDuration: `${phaseDur}s` }}
-          />
-        )}
-      </div>
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "min(230px, 60vw)",
+              margin: "4px 0 2px",
+            }}
+          >
+            {hagsi}
+          </div>
+
+          {/* по полоске на каждую фазу: ширина пропорциональна секундам */}
+          <div className="phase-bars">
+            {phases.map(([lbl, dur], i) => {
+              const active = running && i === phaseIdx;
+              const done = running && i < phaseIdx;
+              return (
+                <div key={lbl} className="phase-seg" style={{ flexGrow: dur }}>
+                  <div className="seg-label" style={{ color: active ? PHASE_COLOR[lbl] : "var(--text-dim)" }}>
+                    {lbl} · {dur} сек
+                  </div>
+                  <div className="seg-track">
+                    {(active || done) && (
+                      <div
+                        key={active ? `${cycles}-${i}` : `done-${i}`}
+                        className={`seg-fill ${active ? "active" : "done"}`}
+                        style={{
+                          background: PHASE_COLOR[lbl],
+                          animationDuration: active ? `${dur}s` : undefined,
+                        }}
+                      />
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
 
       <button className={`btn btn-big ${running ? "" : "btn-sky"}`} onClick={() => (running ? setRunning(false) : start())}>
         {running ? "Стоп" : "Дышать с Хагси"}

@@ -238,6 +238,7 @@ body::after {
 /* пульсирующая точка вместо эмодзи 🆘 */
 .sos-pulse {
   position: relative;
+  margin-right: 6px;
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -533,7 +534,7 @@ input[type="range"]::-moz-range-thumb {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding-bottom: 110px; /* место под нижнюю панель */
+  padding-bottom: 130px; /* место под нижнюю панель */
 }
 
 .ex-topbar {
@@ -565,17 +566,148 @@ input[type="range"]::-moz-range-thumb {
   background: linear-gradient(to right, var(--sky), var(--mint));
   transition: width 0.4s ease;
 }
-/* плавное заполнение на всю длительность фазы дыхания */
-.phase-bar {
-  width: 100% !important;
-  transform-origin: left center;
-  transform: scaleX(0);
-  animation: fillBar linear forwards;
-  transition: none !important;
-}
-@keyframes fillBar {
+/* ---------- Дыхание: полоска на каждую фазу ---------- */
+
+@keyframes fillX {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
+}
+@keyframes fillY {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+.phase-bars {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+  margin: 12px auto 20px;
+}
+.phase-seg {
+  flex-basis: 0;
+  min-width: 0;
+}
+.seg-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+.seg-track {
+  height: 6px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+.seg-fill {
+  height: 100%;
+  border-radius: 100px;
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+.seg-fill.active { animation: fillX linear forwards; }
+.seg-fill.done { transform: scaleX(1); opacity: 0.5; }
+
+/* ---------- Квадратное дыхание ---------- */
+
+.box-track {
+  position: relative;
+  width: min(272px, 78vw);
+  aspect-ratio: 1;
+  margin: 6px auto 20px;
+}
+.box-center {
+  position: absolute;
+  inset: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.box-side {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.box-side.top { top: 0; left: 0; right: 0; height: 4px; }
+.box-side.right { top: 0; right: 0; bottom: 0; width: 4px; }
+.box-side.bottom { bottom: 0; left: 0; right: 0; height: 4px; }
+.box-side.left { top: 0; bottom: 0; left: 0; width: 4px; }
+
+.box-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+}
+.box-fill.top { background: var(--sky); transform-origin: left center; transform: scaleX(0); }
+.box-fill.right { background: var(--lavender); transform-origin: center top; transform: scaleY(0); }
+.box-fill.bottom { background: var(--mint); transform-origin: right center; transform: scaleX(0); }
+.box-fill.left { background: rgba(255, 255, 255, 0.35); transform-origin: center bottom; transform: scaleY(0); }
+
+.box-fill.top.active, .box-fill.bottom.active { animation: fillX linear forwards; }
+.box-fill.right.active, .box-fill.left.active { animation: fillY linear forwards; }
+.box-fill.top.done, .box-fill.bottom.done { transform: scaleX(1); opacity: 0.45; }
+.box-fill.right.done, .box-fill.left.done { transform: scaleY(1); opacity: 0.45; }
+
+.box-dot {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 16px 4px rgba(255, 255, 255, 0.55);
+  transform: translate(-50%, -50%);
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  z-index: 2;
+}
+.dot-top { top: 2px; animation-name: dotTop; }
+.dot-right { left: calc(100% - 2px); animation-name: dotRight; }
+.dot-bottom { top: calc(100% - 2px); animation-name: dotBottom; }
+.dot-left { left: 2px; animation-name: dotLeft; }
+
+@keyframes dotTop {
+  from { left: 0%; }
+  to { left: 100%; }
+}
+@keyframes dotRight {
+  from { top: 0%; }
+  to { top: 100%; }
+}
+@keyframes dotBottom {
+  from { left: 100%; }
+  to { left: 0%; }
+}
+@keyframes dotLeft {
+  from { top: 100%; }
+  to { top: 0%; }
+}
+
+/* ---------- Точки-группы (мышечная релаксация) ---------- */
+
+.group-dots {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.group-dot {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+.group-dot:hover { transform: scale(1.35); background: rgba(255, 255, 255, 0.3); }
+.group-dot.done { background: rgba(127, 224, 195, 0.45); }
+.group-dot.current {
+  background: var(--mint);
+  box-shadow: 0 0 12px rgba(127, 224, 195, 0.7);
+  transform: scale(1.5);
 }
 
 /* Нижняя панель «дальше» — всегда под большим пальцем */
@@ -1207,7 +1339,7 @@ hr.sep {
 
 @media (max-width: 480px) {
   .container { padding: 14px 14px 32px; }
-  .ex-screen { padding-bottom: 96px; }
+  .ex-screen { padding-bottom: 118px; }
   .ex-topbar { margin-bottom: 12px; }
   .title { font-size: clamp(1.4rem, 6vw, 1.7rem); }
   .big-number { font-size: clamp(3.2rem, 16vw, 4.5rem); }
